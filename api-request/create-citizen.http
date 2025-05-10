@@ -1,0 +1,21 @@
+POST http://localhost:8080/api/v1/citizen
+Content-Type: application/json
+
+{
+
+  "firstName": "Hari",
+  "middleName": "Bahadur",
+  "lastName": "Magar",
+  "gender": "MALE",
+  "nationality": "Nepali",
+  "district": "Kathmandu",
+  "municipality": "Tokha",
+  "wardNo": 3,
+  "tole": "Dhapasi",
+  "fatherName": "Ram Bahadur Thapa",
+  "motherName": "Sita Thapa",
+  "grandfatherName": "Gopal Thapa",
+  "grandmotherName": "Radha Thapa",
+  "dateOfBirth": "2020-02-05",
+  "phoneNo": "98177654333"
+}

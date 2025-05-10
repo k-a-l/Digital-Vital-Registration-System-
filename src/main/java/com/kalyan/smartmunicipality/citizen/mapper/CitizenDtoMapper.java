@@ -4,15 +4,15 @@ import com.kalyan.smartmunicipality.citizen.dto.CitizenRequestDto;
 import com.kalyan.smartmunicipality.citizen.dto.CitizenResponseDto;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
 
-import java.time.LocalDate;
-
 public class CitizenDtoMapper {
     public static CitizenResponseDto mapToDto(Citizen citizen){
         return CitizenResponseDto.builder()
+                .id(citizen.getId())
                 .firstName(citizen.getFirstName())
                 .middleName(citizen.getMiddleName())
                 .lastName(citizen.getLastName())
                 .dateOfBirth(citizen.getDateOfBirth())
+                .phoneNo(citizen.getPhoneNo())
                 .fatherName(citizen.getFatherName())
                 .motherName(citizen.getMotherName())
                 .grandfatherName(citizen.getGrandfatherName())
@@ -31,12 +31,14 @@ public class CitizenDtoMapper {
     }
     public static Citizen mapToEntity(CitizenRequestDto dto){
         return Citizen.builder()
+
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .middleName(dto.getMiddleName())
                 .dateOfBirth(dto.getDateOfBirth())
                 .gender(dto.getGender())
                 .fatherName(dto.getFatherName())
+                .phoneNo(dto.getPhoneNo())
                 .motherName(dto.getMotherName())
                 .grandfatherName(dto.getGrandfatherName())
                 .nationality(dto.getNationality())

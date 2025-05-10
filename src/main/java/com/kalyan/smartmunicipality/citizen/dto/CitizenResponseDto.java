@@ -16,6 +16,7 @@ public class CitizenResponseDto {
     private String firstName;
     private String middleName;
     private String lastName;
+    private Long phoneNo;
     private String gender;
     private String nationality;
     private String district;

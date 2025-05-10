@@ -1,5 +1,6 @@
 package com.kalyan.smartmunicipality.citizen.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,7 @@ public class CitizenRequestDto {
     private String tole;
     private String fatherName;
     private String motherName;
+    private Long phoneNo;
     private boolean isVerified=false;
     private String grandfatherName;
     private String grandmotherName;

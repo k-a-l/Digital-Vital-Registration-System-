@@ -1,23 +1,20 @@
 package com.kalyan.smartmunicipality.citizen.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jdk.jfr.Enabled;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.UUID;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "citizens")
 public class Citizen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +23,8 @@ public class Citizen {
     private String middleName;
     private String lastName;
     private LocalDate dateOfBirth;
+    @Column(unique = true, nullable = false)
+    private Long phoneNo;
     private String fatherName;
     private String motherName;
     private String grandfatherName;
@@ -41,6 +40,9 @@ public class Citizen {
     private Long verifiedBy;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+
+    @OneToMany(mappedBy = "citizenId",cascade = CascadeType.ALL)
+    private List<CitizenDocument> documents;
 
 
 }
