@@ -1,18 +1,23 @@
 package com.kalyan.smartmunicipality.citizen.dto;
 
+import com.kalyan.smartmunicipality.citizen.enums.DocumentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 public class CitizenDocumentRequestDto {
     private Long citizenId;
-    private String documentType;
+    private DocumentType documentType;
     //private byte[] fileData;  Citizen Gives Multipart file needs to convert
-    private String fileName;
+    private Long verifiedBy;
     private MultipartFile file;
+    private LocalDate uploadDate;
 }

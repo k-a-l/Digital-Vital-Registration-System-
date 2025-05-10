@@ -1,9 +1,13 @@
 package com.kalyan.smartmunicipality.citizen.dto;
 
+import com.kalyan.smartmunicipality.citizen.enums.DocumentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -12,9 +16,10 @@ import lombok.NoArgsConstructor;
 public class CitizenDocumentResponseDto {
     private Long id;
     private String fileName;
-    private String documentType;
-    private String verifiedBy;
-    private String verifiedDate;
-    private String createdAt;
-    private String updatedAt;
+    private DocumentType documentType;
+    private Long citizenId;
+    private Long verifiedBy;
+    private LocalDate verifiedDate;
+    private LocalDate createdAt=LocalDate.now();
+    private LocalDate updatedAt;
 }

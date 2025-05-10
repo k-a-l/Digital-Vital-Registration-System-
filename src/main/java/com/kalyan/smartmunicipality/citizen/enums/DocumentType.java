@@ -1,5 +1,8 @@
 package com.kalyan.smartmunicipality.citizen.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum DocumentType {
     CITIZENSHIP("Citizenship Card"),
     VOTER_ID("Voter ID Card"),
@@ -13,8 +16,5 @@ public enum DocumentType {
         this.label = label;
     }
 
-    public String getLabel() {
-        return label;
-    }
 }
 
