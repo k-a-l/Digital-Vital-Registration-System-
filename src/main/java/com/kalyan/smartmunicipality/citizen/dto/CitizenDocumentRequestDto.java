@@ -19,5 +19,8 @@ public class CitizenDocumentRequestDto {
     //private byte[] fileData;  Citizen Gives Multipart file needs to convert
     private Long verifiedBy;
     private MultipartFile file;
-    private LocalDate uploadDate;
+    private LocalDate uploadDate=LocalDate.now();
+    private LocalDate verifiedDate;
+    private LocalDate createdAt=LocalDate.now();
+    private LocalDate updatedAt;
 }

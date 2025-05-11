@@ -23,6 +23,7 @@ public class CitizenDocument {
     private Citizen citizenId;
 
     private DocumentType documentType;
+    @Lob
     private byte[] fileData;
     private String fileName;
     private LocalDate uploadDate;

@@ -32,9 +32,13 @@ public class CitizenDocumentMapper {
                 .documentType(dto.getDocumentType())
                 .fileData(dto.getFile().getBytes())
                 .fileName(dto.getFile().getOriginalFilename())
-                .uploadDate(dto.getUploadDate())
+                .uploadDate(LocalDate.now())
                 .verifiedBy(dto.getVerifiedBy())
-                .verifiedDate(LocalDate.now())
+                .verifiedDate(dto.getVerifiedDate())
+                .createdAt(LocalDate.now())
+                .updatedAt(LocalDate.now())
+
+
                 .build();
     }
 

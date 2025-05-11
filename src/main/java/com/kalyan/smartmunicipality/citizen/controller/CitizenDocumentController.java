@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -22,13 +24,11 @@ public class CitizenDocumentController {
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CitizenDocumentResponseDto> uploadDocument(
-            @RequestPart("file") MultipartFile file,
-            @RequestPart("citizenId") Long citizenId,
-            @RequestPart("documentType") String documentType,
-            @RequestPart(value = "verifiedBy", required = false) Long verifiedBy
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("citizenId") Long citizenId,
+            @RequestParam("documentType") String documentType,
+            @RequestParam(value = "verifiedBy", required = false) Long verifiedBy
     ) throws Exception {
-
-        // Build DTO manually from multipart data
         CitizenDocumentRequestDto requestDto = CitizenDocumentRequestDto.builder()
                 .citizenId(citizenId)
                 .documentType(Enum.valueOf(DocumentType.class, documentType))
@@ -39,5 +39,43 @@ public class CitizenDocumentController {
         CitizenDocumentResponseDto responseDto = documentService.uploadDocument(requestDto);
         return ResponseEntity.ok(responseDto);
     }
+    @GetMapping("/list")
+    public ResponseEntity<List<CitizenDocumentResponseDto>> getAllDocuments() {
+        List<CitizenDocumentResponseDto> documents = documentService.getAllDocuments();
+        if (documents.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(documents);
+    }
+
+
+    @PostMapping(value = "/multi-upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<List<CitizenDocumentResponseDto>> uploadMultipleDocuments(
+            @RequestParam("files") MultipartFile[] files,
+            @RequestParam("citizenId") Long citizenId,
+            @RequestParam("documentType") String documentType,
+            @RequestParam(value = "verifiedBy", required = false) Long verifiedBy
+    ) throws Exception {
+
+        List<CitizenDocumentResponseDto> responses = new ArrayList<>();
+
+        for (MultipartFile file : files) {
+            CitizenDocumentRequestDto dto = CitizenDocumentRequestDto.builder()
+                    .citizenId(citizenId)
+                    .documentType(DocumentType.valueOf(documentType))
+                    .verifiedBy(verifiedBy)
+                    .file(file)
+                    .build();
+
+            responses.add(documentService.uploadDocument(dto));
+        }
+
+        return ResponseEntity.ok(responses);
+    }
+
+
+
+
+
 
 }
