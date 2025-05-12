@@ -1,6 +1,6 @@
 package com.kalyan.smartmunicipality.certificate.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.enums.CertificateStatus;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import jakarta.persistence.*;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class BirthCertificate {
+public class BirthCertificateRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,22 +26,17 @@ public class BirthCertificate {
 
     @ManyToOne
     @JoinColumn(name = "citizen_id", referencedColumnName = "id",nullable = false)
-
-    private Citizen citizenId;
+    private Citizen citizen;
 
     private Long requestedBy; //Citizen Id
+    private LocalDate requestedAt;
+
     @Enumerated(EnumType.STRING)
     private CertificateStatus status;
 
-    @Lob
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "birthCertificateRequest")
+    private CertificateFile certificateFile;
 
-    @Column(name = "certificate_file", nullable = true)
-    private byte[] certificateFile;
-    @Column(name = "file_name", nullable = true)
-
-    private String fileName;
-    private LocalDate verifiedAt;
-    private Long verifiedBy;
 
 
 
