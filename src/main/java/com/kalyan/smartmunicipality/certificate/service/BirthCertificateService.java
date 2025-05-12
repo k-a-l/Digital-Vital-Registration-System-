@@ -52,13 +52,17 @@ public class BirthCertificateService {
         }
         Map<String, Object> params = new HashMap<>();
         params.put("childName", cert.getChildName());
+        params.put("gender", cert.getGender());
         params.put("dateOfBirth", cert.getDateOfBirth());
-        /*params.put("gender", cert.getGender());
+        params.put("birthPlace", cert.getCitizen().getMunicipality()); // Adjust as needed
         params.put("fatherName", cert.getCitizen().getFatherName());
-        params.put("motherName", cert.getCitizen().getMotherName());*/
-        //params.put("address", cert.getCitizen().getPermanentAddress());
-        //params.put("issuedDate", cert.getVerifiedAt().toString());
+        params.put("motherName", cert.getCitizen().getMotherName());
+        params.put("grandFatherName", cert.getCitizen().getGrandfatherName());
+        params.put("verifiedBy", "Ward Secretary"); // Replace with actual data
+        params.put("verifiedAt", "Tokha Municipality"); // Replace with actual data
+        params.put("issuedDate", LocalDate.now());
 
+        Citizen citizen = cert.getCitizen();
         return birthCertificateReportService.generateBirthCertificateReport(params);
 
     }

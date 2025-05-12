@@ -32,6 +32,8 @@ public class CitizenRequestDto {
     private String tole;
     private String fatherName;
     private String motherName;
+    private String spouseName;
+
     private Long phoneNo;
     private boolean isVerified=false;
     private String grandfatherName;

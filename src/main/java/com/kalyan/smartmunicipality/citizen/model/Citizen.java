@@ -1,5 +1,7 @@
 package com.kalyan.smartmunicipality.citizen.model;
 
+import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
+import com.kalyan.smartmunicipality.certificate.model.BirthCertificateRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ public class Citizen {
     private String firstName;
     private String middleName;
     private String lastName;
+    private String spouseName;
     private LocalDate dateOfBirth;
     @Column(unique = true, nullable = false)
     private Long phoneNo;
@@ -43,6 +46,9 @@ public class Citizen {
 
     @OneToMany(mappedBy = "citizenId",cascade = CascadeType.ALL)
     private List<CitizenDocument> documents;
+
+    @OneToMany(mappedBy = "citizen",cascade = CascadeType.ALL)
+    private List<BirthCertificateRequest> birthCertificateRequests;
 
 
 }
