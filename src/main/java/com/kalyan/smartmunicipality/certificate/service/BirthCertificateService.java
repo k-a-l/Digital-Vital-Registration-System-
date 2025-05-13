@@ -1,5 +1,6 @@
 package com.kalyan.smartmunicipality.certificate.service;
 
+import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.enums.CertificateStatus;
 import com.kalyan.smartmunicipality.certificate.model.BirthCertificateRequest;
 import com.kalyan.smartmunicipality.certificate.repository.BirthCertificateRepository;
@@ -63,7 +64,9 @@ public class BirthCertificateService {
         params.put("issuedDate", LocalDate.now());
 
         Citizen citizen = cert.getCitizen();
-        return birthCertificateReportService.generateBirthCertificateReport(params);
+
+
+        return birthCertificateReportService.generateBirthCertificateReport(params,citizen);
 
     }
 
