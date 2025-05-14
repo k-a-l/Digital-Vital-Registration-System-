@@ -55,13 +55,23 @@ public class BirthCertificateService {
         params.put("childName", cert.getChildName());
         params.put("gender", cert.getGender());
         params.put("dateOfBirth", cert.getDateOfBirth());
-        params.put("birthPlace", cert.getCitizen().getMunicipality()); // Adjust as needed
-        params.put("fatherName", cert.getCitizen().getFatherName());
-        params.put("motherName", cert.getCitizen().getMotherName());
-        params.put("grandFatherName", cert.getCitizen().getGrandfatherName());
-        params.put("verifiedBy", "Ward Secretary"); // Replace with actual data
-        params.put("verifiedAt", "Tokha Municipality"); // Replace with actual data
+        params.put("birthPlace", cert.getCitizen().getMunicipality());
+
+        params.put("firstName", cert.getCitizen().getFirstName());
+        params.put("middleName", cert.getCitizen().getMiddleName());
+        params.put("lastName", cert.getCitizen().getLastName());
+        params.put("spouseName", cert.getCitizen().getSpouseName());
+
+        params.put("district", cert.getCitizen().getDistrict());
+        params.put("municipality", cert.getCitizen().getMunicipality());
+        params.put("wardNo", cert.getCitizen().getWardNo());
+        params.put("tole", cert.getCitizen().getTole());
+        params.put("nationality", cert.getCitizen().getNationality());
+
+        params.put("verifiedBy", "Ward Secretary"); // or dynamic
+        params.put("verifiedAt", cert.getCitizen().getMunicipality());
         params.put("issuedDate", LocalDate.now());
+
 
         Citizen citizen = cert.getCitizen();
 

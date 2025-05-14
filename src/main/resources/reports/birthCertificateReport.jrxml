@@ -7,16 +7,26 @@
 			  leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 
 	<!-- Parameters -->
+
 	<parameter name="childName" class="java.lang.String"/>
 	<parameter name="gender" class="java.lang.String"/>
 	<parameter name="dateOfBirth" class="java.time.LocalDate"/>
 	<parameter name="birthPlace" class="java.lang.String"/>
-	<parameter name="fatherName" class="java.lang.String"/>
-	<parameter name="motherName" class="java.lang.String"/>
-	<parameter name="grandFatherName" class="java.lang.String"/>
+	<parameter name="firstName" class="java.lang.String"/>
+	<parameter name="middleName" class="java.lang.String"/>
+	<parameter name="lastName" class="java.lang.String"/>
+	<parameter name="spouseName" class="java.lang.String"/>
+	<parameter name="district" class="java.lang.String"/>
+	<parameter name="municipality" class="java.lang.String"/>
+	<parameter name="wardNo" class="java.lang.Integer"/>
+	<parameter name="tole" class="java.lang.String"/>
+	<parameter name="nationality" class="java.lang.String"/>
 	<parameter name="verifiedBy" class="java.lang.String"/>
 	<parameter name="verifiedAt" class="java.lang.String"/>
 	<parameter name="issuedDate" class="java.time.LocalDate"/>
+
+
+
 
 	<!-- Background with full-page light color and watermark -->
 	<background>
@@ -74,19 +84,20 @@
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[
-                    "This is to certify that " + $P{childName} + ", " +
-                    ($P{gender}.equalsIgnoreCase("Male") ? "son" : "daughter") +
-                    " of Mr. " + $P{fatherName} + " and Mrs. " + $P{motherName} +
-                    ", and grandchild of Mr. " + $P{grandFatherName} +
-                    ", born on " + $P{dateOfBirth}.toString() +
-                    " at " + $P{birthPlace} +
-                    ", is a permanent resident of " + $P{birthPlace} + "." +
-                    "\n\nThis certificate is issued by " + $P{verifiedBy} +
-                    " at " + $P{verifiedAt} +
-                    " on " + $P{issuedDate}.toString() + "."
-                ]]></textFieldExpression>
+				<textFieldExpression><![CDATA["This is to certify that " + $P{childName} + ", " +
+    ($P{gender}.equalsIgnoreCase("Male") ? "son" : "daughter") +
+    " of Mr. " + $P{firstName} + " " + $P{middleName} + " " + $P{lastName} +
+    " and Mrs. " + $P{spouseName} +
+    ", born on " + $P{dateOfBirth}.toString() +
+    " at " + $P{birthPlace} + ", District " + $P{district} +
+    ", Ward No. " + $P{wardNo} + ", Tole: " + $P{tole} +
+    ", is a permanent resident of " + $P{municipality} + ", " + $P{district} + "." +
+    "\n\nThe nationality of the child is " + $P{nationality} + "." +
+    "\n\nThis certificate is issued by " + $P{verifiedBy} +
+    " at " + $P{verifiedAt} +
+    " on " + $P{issuedDate}.toString() + "."]]></textFieldExpression>
 			</textField>
+
 		</band>
 	</detail>
 
