@@ -38,5 +38,8 @@ public class CertificateFile {
     private CertificateStatus status;
     private CertificateType certificateType;
 
+    @Lob
+    private byte[] fileData;
+
 
 }

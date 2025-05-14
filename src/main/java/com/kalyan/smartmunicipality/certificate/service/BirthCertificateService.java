@@ -66,7 +66,7 @@ public class BirthCertificateService {
         Citizen citizen = cert.getCitizen();
 
 
-        return birthCertificateReportService.generateBirthCertificateReport(params,citizen);
+        return birthCertificateReportService.generateBirthCertificateReport(params,citizen,cert);
 
     }
 

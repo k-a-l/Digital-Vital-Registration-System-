@@ -50,5 +50,8 @@ public class Citizen {
     @OneToMany(mappedBy = "citizen",cascade = CascadeType.ALL)
     private List<BirthCertificateRequest> birthCertificateRequests;
 
+    @OneToMany(mappedBy = "citizenId",cascade = CascadeType.ALL)
+    private List<CertificateFile> certificateFiles;
+
 
 }

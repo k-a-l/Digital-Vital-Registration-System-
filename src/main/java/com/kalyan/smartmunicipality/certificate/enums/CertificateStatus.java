@@ -5,7 +5,12 @@ import lombok.Getter;
 
 @Getter
 public enum CertificateStatus {
-    PENDING,
-    APPROVED,
-    REJECTED;
+    PENDING("Pending"),
+    APPROVED("Approved"),
+    REJECTED("Rejecterd");
+
+    private final String label;
+    CertificateStatus(String label) {
+        this.label = label;
+    }
 }

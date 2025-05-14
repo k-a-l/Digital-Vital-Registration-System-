@@ -3,11 +3,11 @@ Content-Type: application/json
 
 {
 
-  "firstName": "Kumar",
+  "firstName": "Ranjan",
   "middleName": "Bahadur",
-  "lastName": "Magar",
+  "lastName": "Adhakari",
   "gender": "MALE",
-  "spouseName": "Maya Kumari",
+  "spouseName": "Ranju Nepali",
   "nationality": "Nepali",
   "district": "Kathmandu",
   "municipality": "Tokha",
@@ -18,5 +18,5 @@ Content-Type: application/json
   "grandfatherName": "Gopal Thapa",
   "grandmotherName": "Radha Thapa",
   "dateOfBirth": "2020-02-05",
-  "phoneNo": "98177699332"
+  "phoneNo": "911011232"
 }
