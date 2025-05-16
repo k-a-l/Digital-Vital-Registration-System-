@@ -6,7 +6,7 @@ Content-Type: application/json
   "gender": "FEMALE",
   "dateOfBirth": "2024-03-01",
   "citizen": {
-    "id": 2
+    "id": 1
   }
 }
 

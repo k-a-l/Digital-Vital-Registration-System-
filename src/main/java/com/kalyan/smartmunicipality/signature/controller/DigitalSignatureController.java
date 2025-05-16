@@ -36,8 +36,8 @@ public class DigitalSignatureController {
         }
 
         try {
-            String uploadedContent = new String(file.getBytes(), StandardCharsets.UTF_8);
-            boolean isValid = digitalSignatureService.verifyCertificate(uploadedContent, storedSignature);
+            byte[] uploadedBytes = file.getBytes();  // ✅ raw binary, no UTF-8 decoding
+            boolean isValid = digitalSignatureService.verifyCertificate(uploadedBytes, storedSignature);
 
             return isValid
                     ? ResponseEntity.ok("Certificate is valid and unmodified.")
@@ -48,4 +48,5 @@ public class DigitalSignatureController {
                     .body("Error during signature verification: " + e.getMessage());
         }
     }
+
 }

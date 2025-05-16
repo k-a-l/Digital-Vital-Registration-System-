@@ -1,10 +1,13 @@
 package com.kalyan.smartmunicipality.certificate.controller;
 
+import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.model.BirthCertificateRequest;
+import com.kalyan.smartmunicipality.certificate.repository.CertificateFileRepository;
 import com.kalyan.smartmunicipality.certificate.service.BirthCertificateReportService;
 import com.kalyan.smartmunicipality.certificate.service.BirthCertificateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class BirthCertificateController {
     private final BirthCertificateService birthCertificateService;
     private final BirthCertificateReportService birthCertificateReportService;
+    private final CertificateFileRepository certificateFileRepository;
 
 
     @PostMapping("/save")
@@ -32,6 +36,26 @@ public class BirthCertificateController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdf);
     }
+
+    @GetMapping("/download/{referenceNumber}")
+    public ResponseEntity<?> downloadCertificateByReferenceNumber(@PathVariable String referenceNumber) {
+        if (referenceNumber == null || referenceNumber.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Reference number must not be empty.");
+        }
+
+        CertificateFile certificateFile = certificateFileRepository.findByReferenceNumber(referenceNumber);
+        if (certificateFile == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Certificate not found for the given reference number.");
+        }
+
+        byte[] pdf = certificateFile.getFileData();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + certificateFile.getFilePath())
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
+    }
+
+
 
 
 
