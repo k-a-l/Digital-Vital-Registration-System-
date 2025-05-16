@@ -1,5 +1,6 @@
 package com.kalyan.smartmunicipality.certificate.certificateFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kalyan.smartmunicipality.certificate.enums.CertificateStatus;
 import com.kalyan.smartmunicipality.certificate.enums.CertificateType;
 import com.kalyan.smartmunicipality.certificate.model.BirthCertificateRequest;
@@ -39,7 +40,27 @@ public class CertificateFile {
     private CertificateType certificateType;
 
     @Lob
+    @JsonIgnore
     private byte[] fileData;
+
+    @Lob
+    @JsonIgnore
+    @Column(length = 10000)
+    private String digitalSignature;
+
+    @Lob
+    @JsonIgnore
+    @Column(length = 10000)
+    private String modulus;
+
+
+    @Column(length = 10000)
+    private String publicKey;
+
+    @Column(unique = true, nullable = false, updatable = false)
+    private String referenceNumber;
+
+
 
 
 }

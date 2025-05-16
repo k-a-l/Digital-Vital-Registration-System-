@@ -7,7 +7,6 @@
 			  leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 
 	<!-- Parameters -->
-
 	<parameter name="childName" class="java.lang.String"/>
 	<parameter name="gender" class="java.lang.String"/>
 	<parameter name="dateOfBirth" class="java.time.LocalDate"/>
@@ -24,19 +23,14 @@
 	<parameter name="verifiedBy" class="java.lang.String"/>
 	<parameter name="verifiedAt" class="java.lang.String"/>
 	<parameter name="issuedDate" class="java.time.LocalDate"/>
+	<parameter name="referenceNumber" class="java.lang.String"/>
 
-
-
-
-	<!-- Background with full-page light color and watermark -->
+	<!-- Background -->
 	<background>
-		<band splitType="Stretch" height="802"> <!-- 842 total - 20 top - 20 bottom -->
-			<!-- Full-page light gray rectangle -->
+		<band splitType="Stretch" height="802">
 			<rectangle>
 				<reportElement mode="Opaque" x="0" y="0" width="595" height="802" backcolor="#F5F5F5"/>
 			</rectangle>
-
-			<!-- Watermark Text -->
 			<staticText>
 				<reportElement x="47" y="351" width="500" height="100" forecolor="#D0D0D0" mode="Transparent"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -76,6 +70,19 @@
 		</band>
 	</title>
 
+	<!-- Page Header (for Reference Number at top-right) -->
+	<pageHeader>
+		<band height="30">
+			<textField>
+				<reportElement x="400" y="0" width="155" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reference No: " + $P{referenceNumber}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+
 	<!-- Detail Section -->
 	<detail>
 		<band height="300">
@@ -84,24 +91,25 @@
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["This is to certify that " + $P{childName} + ", " +
-    ($P{gender}.equalsIgnoreCase("Male") ? "son" : "daughter") +
-    " of Mr. " + $P{firstName} + " " + $P{middleName} + " " + $P{lastName} +
-    " and Mrs. " + $P{spouseName} +
-    ", born on " + $P{dateOfBirth}.toString() +
-    " at " + $P{birthPlace} + ", District " + $P{district} +
-    ", Ward No. " + $P{wardNo} + ", Tole: " + $P{tole} +
-    ", is a permanent resident of " + $P{municipality} + ", " + $P{district} + "." +
-    "\n\nThe nationality of the child is " + $P{nationality} + "." +
-    "\n\nThis certificate is issued by " + $P{verifiedBy} +
-    " at " + $P{verifiedAt} +
-    " on " + $P{issuedDate}.toString() + "."]]></textFieldExpression>
+				<textFieldExpression><![CDATA[
+"This is to certify that " + $P{childName} + ", " +
+($P{gender}.equalsIgnoreCase("Male") ? "son" : "daughter") +
+" of Mr. " + $P{firstName} + " " + $P{middleName} + " " + $P{lastName} +
+" and Mrs. " + $P{spouseName} +
+", born on " + $P{dateOfBirth}.toString() +
+" at " + $P{birthPlace} + ", District " + $P{district} +
+", Ward No. " + $P{wardNo} + ", Tole: " + $P{tole} +
+", is a permanent resident of " + $P{municipality} + ", " + $P{district} + "." +
+"\n\nThe nationality of the child is " + $P{nationality} + "." +
+"\n\nThis certificate is issued by " + $P{verifiedBy} +
+" at " + $P{verifiedAt} +
+" on " + $P{issuedDate}.toString() + "."
+                ]]></textFieldExpression>
 			</textField>
-
 		</band>
 	</detail>
 
-	<!-- Footer with Stamp Placeholder -->
+	<!-- Footer -->
 	<pageFooter>
 		<band height="100">
 			<staticText>
