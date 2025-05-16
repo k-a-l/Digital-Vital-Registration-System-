@@ -16,6 +16,7 @@ public class CitizenService {
 
     private final CitizenRepository citizenRepository;
     public CitizenService(CitizenRepository citizenRepository){
+
         this.citizenRepository=citizenRepository;
     }
 

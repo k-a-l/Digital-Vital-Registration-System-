@@ -1,4 +1,4 @@
-package com.kalyan.smartmunicipality.staff;
+package com.kalyan.smartmunicipality.staff.model;
 
 import com.kalyan.smartmunicipality.staff.enums.Role;
 import com.kalyan.smartmunicipality.staff.enums.Status;
