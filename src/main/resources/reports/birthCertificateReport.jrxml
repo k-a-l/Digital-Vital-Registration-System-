@@ -24,6 +24,9 @@
 	<parameter name="verifiedAt" class="java.lang.String"/>
 	<parameter name="issuedDate" class="java.time.LocalDate"/>
 	<parameter name="referenceNumber" class="java.lang.String"/>
+	<parameter name="signedMark" class="java.lang.String"/>
+	<parameter name="tamperWarning" class="java.lang.String"/>
+
 
 	<!-- Background -->
 	<background>
@@ -112,14 +115,35 @@
 	<!-- Footer -->
 	<pageFooter>
 		<band height="100">
+			<!-- Placeholder for Stamp -->
 			<staticText>
-				<reportElement x="400" y="10" width="120" height="60"/>
+				<reportElement x="420" y="70" width="120" height="25"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Official Stamp Here]]></text>
 			</staticText>
+			<!-- Signed Mark -->
+			<textField>
+				<reportElement x="0" y="0" width="700" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{signedMark}]]></textFieldExpression>
+			</textField>
+
+			<!-- Tamper Warning Message -->
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="25" width="555" height="50"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tamperWarning}]]></textFieldExpression>
+			</textField>
+
+
 		</band>
 	</pageFooter>
+
 
 </jasperReport>
