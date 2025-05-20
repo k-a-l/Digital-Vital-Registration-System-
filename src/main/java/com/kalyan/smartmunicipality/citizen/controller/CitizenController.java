@@ -30,6 +30,41 @@ public class CitizenController {
         return ResponseEntity.ok(citizens);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCitizenCount(){
+        Long count=citizenService.getCitizenCount();
+        return ResponseEntity.ok(count);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<CitizenResponseDto> updateCitizen(@RequestParam Long id, @Valid @RequestBody CitizenRequestDto citizenRequestDto){
+        CitizenResponseDto citizenResponseDto=citizenService.updateCitizen(id, citizenRequestDto);
+        return ResponseEntity.ok(citizenResponseDto);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteCitizenById(@PathVariable Long id){
+        citizenService.deleteCitizenById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/male-count")
+    public ResponseEntity<Long> getMaleCount(){
+        Long count=citizenService.getMaleCount();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/female-count")
+    public ResponseEntity<Long> getFemaleCount(){
+        Long count=citizenService.getFemaleCount();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/others-count")
+    public ResponseEntity<Long> getOthersCount(){
+        Long count=citizenService.getOthersCount();
+        return ResponseEntity.ok(count);
+    }
 
 
 

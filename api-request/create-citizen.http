@@ -3,20 +3,20 @@ Content-Type: application/json
 
 {
 
-  "firstName": "Manush",
-  "middleName": "Bahadur",
-  "lastName": "Thapa",
+  "firstName": "Ram ",
+  "middleName": "Prdasa",
+  "lastName": "GAutam",
   "gender": "MALE",
-  "spouseName": "Manju Nepali",
+  "spouseName": "Sapana Gautam",
   "nationality": "Nepali",
   "district": "Kathmandu",
   "municipality": "Tokha",
   "wardNo": 3,
   "tole": "Dhapasi",
-  "fatherName": "Hari Bahadur Thapa",
+  "fatherName": "Hari Prasad Gautam",
   "motherName": "Gita Thapa",
   "grandfatherName": "Madhan Thapa",
   "grandmotherName": "Radha Thapa",
   "dateOfBirth": "2020-02-05",
-  "phoneNo": "911011232333"
+  "phoneNo": "911011232366"
 }

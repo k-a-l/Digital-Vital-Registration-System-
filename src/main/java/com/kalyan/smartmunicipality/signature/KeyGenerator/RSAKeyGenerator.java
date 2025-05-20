@@ -27,8 +27,13 @@ public class RSAKeyGenerator {
 
     n = p.multiply(q);
 
+
+
     //Step 3: Compute phi(n) = (p-1) x (q-1)
              BigInteger phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
+
+
+
 
     //Step 4: Select an integer such that 1 < e < phi(n) and gcd(e, phi(n)) = 1.
              do {
@@ -39,6 +44,8 @@ public class RSAKeyGenerator {
              /*if(!phi.gcd(e).compareTo(BigInteger.ONE)){
                  e=BigInteger.probablePrime(bitLength/2, random);
              }*/
+
+
 
              //Step 5: Compute d = e^-1 mod phi(n).
              d = e.modInverse(phi);

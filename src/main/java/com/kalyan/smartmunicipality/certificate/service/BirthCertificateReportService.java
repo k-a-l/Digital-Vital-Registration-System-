@@ -59,13 +59,25 @@ public class BirthCertificateReportService {
                     .modulus(signatureKeysService.getModulus().toString())
                     .status(CertificateStatus.APPROVED)
                     .certificateType(CertificateType.BIRTH)
-                    .referenceNumber(referenceNumber) // ✅ Set here
+                    .referenceNumber(referenceNumber)
                     .build();
 
             return certificateFileRepository.save(file);
         } catch (Exception e) {
             throw new RuntimeException("Error generating report", e);
         }
+    }
+
+    public Long countGeneratedBirthCertificate(){
+        return certificateFileRepository.count();
+    }
+
+    public void deleteCertificateFileById(Long id){
+        if(!certificateFileRepository.existsById(id)){
+            throw new RuntimeException("Certificate not found with ID: " + id);
+
+        }
+        certificateFileRepository.deleteById(id);
     }
 
 

@@ -30,34 +30,56 @@ public class CitizenDtoMapper {
                 .build();
 
     }
-    public static Citizen mapToEntity(CitizenRequestDto dto){
+    public static Citizen mapToEntity(CitizenRequestDto dto) {
         return Citizen.builder()
-
                 .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
                 .middleName(dto.getMiddleName())
+                .lastName(dto.getLastName())
                 .dateOfBirth(dto.getDateOfBirth())
                 .gender(dto.getGender())
                 .spouseName(dto.getSpouseName())
                 .fatherName(dto.getFatherName())
-                .phoneNo(dto.getPhoneNo())
                 .motherName(dto.getMotherName())
                 .grandfatherName(dto.getGrandfatherName())
+                .grandmotherName(dto.getGrandmotherName())
                 .nationality(dto.getNationality())
                 .district(dto.getDistrict())
                 .wardNo(dto.getWardNo())
                 .municipality(dto.getMunicipality())
                 .tole(dto.getTole())
-                .gender(dto.getGender())
-                .grandmotherName(dto.getGrandmotherName())
-                .grandfatherName(dto.getGrandfatherName())
+                .phoneNo(dto.getPhoneNo())
                 .createdAt(dto.getCreatedAt())
-                .verifiedBy(dto.getVerifiedBy())
                 .updatedAt(dto.getUpdatedAt())
+                .verifiedBy(dto.getVerifiedBy())
                 .verifiedDate(dto.getVerifiedDate())
                 .isVerified(dto.isVerified())
                 .build();
     }
+
+    public static void updateEntityFromDto(Citizen citizen, CitizenRequestDto dto) {
+        citizen.setFirstName(dto.getFirstName());
+        citizen.setMiddleName(dto.getMiddleName());
+        citizen.setLastName(dto.getLastName());
+        citizen.setDateOfBirth(dto.getDateOfBirth());
+        citizen.setGender(dto.getGender());
+        citizen.setSpouseName(dto.getSpouseName());
+        citizen.setFatherName(dto.getFatherName());
+        citizen.setMotherName(dto.getMotherName());
+        citizen.setGrandfatherName(dto.getGrandfatherName());
+        citizen.setGrandmotherName(dto.getGrandmotherName());
+        citizen.setNationality(dto.getNationality());
+        citizen.setDistrict(dto.getDistrict());
+        citizen.setWardNo(dto.getWardNo());
+        citizen.setMunicipality(dto.getMunicipality());
+        citizen.setTole(dto.getTole());
+        citizen.setPhoneNo(dto.getPhoneNo());
+        citizen.setVerifiedBy(dto.getVerifiedBy());
+        citizen.setVerifiedDate(dto.getVerifiedDate());
+        citizen.setUpdatedAt(dto.getUpdatedAt());
+        citizen.setVerified(dto.isVerified());
+    }
+
+
 
 }
 

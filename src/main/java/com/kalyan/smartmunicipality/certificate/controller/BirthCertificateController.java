@@ -55,6 +55,40 @@ public class BirthCertificateController {
                 .body(pdf);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> countBirthCertificateRequests(){
+        return ResponseEntity.ok(birthCertificateService.countBirthCertificateRequests());
+    }
+
+    @GetMapping("/pending-count")
+    public ResponseEntity<Long> countPendingRequest(){
+        return ResponseEntity.ok(birthCertificateService.countPendingRequest());
+    }
+
+    @GetMapping("/approved-count")
+    public ResponseEntity<Long> countApprovedRequest(){
+        return ResponseEntity.ok(birthCertificateService.countApprovedRequest());
+    }
+    @GetMapping("/rejected-count")
+    public ResponseEntity<Long> countRejectedRequest(){
+        return ResponseEntity.ok(birthCertificateService.countRejectedRequest());
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteBirthCertificateRequestById(@PathVariable Long id){
+        birthCertificateService.deleteBirthCertificateRequestById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/list")
+    public ResponseEntity<Iterable<BirthCertificateRequest>> getAllRequests(){
+        return ResponseEntity.ok(birthCertificateService.getAllRequests());
+    }
+
+
+
+
 
 
 

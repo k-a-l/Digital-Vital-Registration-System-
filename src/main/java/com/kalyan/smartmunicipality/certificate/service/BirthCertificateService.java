@@ -14,10 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -29,9 +26,15 @@ public class BirthCertificateService {
 
 
     public BirthCertificateRequest saveCertificate(BirthCertificateRequest birthCertificate) {
+
+        boolean exists = birthCertificateRepository.existsByChildNameAndDateOfBirthAndCitizen(birthCertificate.getChildName(), birthCertificate.getDateOfBirth(), birthCertificate.getCitizen());
+        if (exists) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Certificate already exists for the given child name and date of birth");
+        }
         if (birthCertificate.getCitizen() == null || birthCertificate.getCitizen().getId() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Citizen ID is missing in request");
         }
+
 
         Long citizenId = birthCertificate.getCitizen().getId();
 
@@ -42,8 +45,7 @@ public class BirthCertificateService {
         birthCertificate.setStatus(CertificateStatus.PENDING);
         birthCertificate.setRequestedBy(citizen.getId());
         birthCertificate.setRequestedAt(LocalDate.now());
-        // ← add this if field exists
-
+        //date of birth, childName , gender fields directly associaate with birtcertificate request repo it directly comes from json
         return birthCertificateRepository.save(birthCertificate);
     }
 
@@ -76,17 +78,46 @@ public class BirthCertificateService {
         params.put("verifiedAt", citizen.getMunicipality());
         params.put("issuedDate", LocalDate.now());
 
-        // 👇 Generate and save the CertificateFile
         CertificateFile file = birthCertificateReportService.generateBirthCertificateReport(params, citizen, cert);
 
-        // 👇 Set the generated file to the request
         cert.setCertificateFile(file);
         birthCertificateRepository.save(cert); // must save this relation
 
-        // 👇 Now you can safely get the reference number
         params.put("referenceNumber", file.getReferenceNumber());
 
-        return file.getFileData(); // Return the PDF data
+        return file.getFileData();
+    }
+
+    public Long countBirthCertificateRequests(){
+        return birthCertificateRepository.count();
+    }
+
+    public void deleteBirthCertificateRequestById(Long id){
+         if(!birthCertificateRepository.existsById(id)){
+             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Certificate not found with ID: " + id);
+
+         }
+         birthCertificateRepository.deleteById(id);
+    }
+
+    public Long countPendingRequest(){
+        return birthCertificateRepository.findAll()
+                .stream().filter(cert->cert.getStatus()==CertificateStatus.PENDING).count();
+    }
+
+    public Long countApprovedRequest(){
+        return certificateFileRepository.count();
+    }
+
+    public List<BirthCertificateRequest> getAllRequests(){
+        return birthCertificateRepository.findAll().stream().toList();
+    }
+
+    public Long countRejectedRequest(){
+        return birthCertificateRepository.findAll()
+                .stream()
+                .filter(cert->cert.getStatus()==CertificateStatus.REJECTED)
+                .count();
     }
 
 }
