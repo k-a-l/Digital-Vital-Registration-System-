@@ -3,20 +3,20 @@ Content-Type: application/json
 
 {
 
-  "firstName": "Ram ",
-  "middleName": "Prdasa",
-  "lastName": "GAutam",
+  "firstName": "Kalyan ",
+  "middleName": " ",
+  "lastName": "Katwal",
   "gender": "MALE",
-  "spouseName": "Sapana Gautam",
+  "spouseName": "Yunisha Katwal",
   "nationality": "Nepali",
   "district": "Kathmandu",
   "municipality": "Tokha",
   "wardNo": 3,
   "tole": "Dhapasi",
-  "fatherName": "Hari Prasad Gautam",
-  "motherName": "Gita Thapa",
-  "grandfatherName": "Madhan Thapa",
+  "fatherName": "Sitaram Katwal",
+  "motherName": "Nar Kumari Katwal",
+  "grandfatherName": "Bhupadhoj Katwal",
   "grandmotherName": "Radha Thapa",
-  "dateOfBirth": "2020-02-05",
-  "phoneNo": "911011232366"
+  "dateOfBirth": "2001-02-26",
+  "phoneNo": "9800055223"
 }

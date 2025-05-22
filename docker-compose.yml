@@ -24,5 +24,18 @@ services:
     depends_on:
       - postgres
 
+  redis:
+    image: redis:7.2
+    container_name: redis-server
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: [ "redis-server", "--appendonly", "yes" ]
+    restart: unless-stopped
+
+
 volumes:
   postgres-data:
+  redis-data:
+

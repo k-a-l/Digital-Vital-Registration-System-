@@ -7,13 +7,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CitizenRequestDto {
+public class CitizenRequestDto implements Serializable {
+    private Long id;
     @NotNull(message = "Cannot be Null")
     private String firstName;
     @NotNull(message = "Cannot be Null")

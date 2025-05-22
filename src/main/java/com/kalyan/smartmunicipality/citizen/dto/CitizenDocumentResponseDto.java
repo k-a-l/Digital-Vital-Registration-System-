@@ -7,13 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.cglib.core.Local;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CitizenDocumentResponseDto {
+public class CitizenDocumentResponseDto implements Serializable {
     private Long id;
     private String fileName;
     private DocumentType documentType;

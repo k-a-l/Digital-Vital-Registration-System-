@@ -5,6 +5,7 @@ import com.kalyan.smartmunicipality.signature.utils.VerifyUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -12,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
 @Service
-@RequiredArgsConstructor
+
 public class DigitalSignatureService {
 
     private static final Logger LOG = LoggerFactory.getLogger(DigitalSignatureService.class);
@@ -32,11 +33,15 @@ public class DigitalSignatureService {
     }
 
 
-    // Logging
-    public void keys() {
-        LOG.info("Private Keys: {}, Public: {}, Modulus: {}",
+    
+    public DigitalSignatureService(SignatureKeysService signatureKeysService) {
+        this.signatureKeysService = signatureKeysService;
+        LOG.info("\n Private Keys: {}, \nPublic: {}, \nModulus: {}",
                 signatureKeysService.getPrivateKey(),
                 signatureKeysService.getPublicKey(),
                 signatureKeysService.getModulus());
     }
+
+
+
 }

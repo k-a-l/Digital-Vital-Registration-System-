@@ -6,6 +6,9 @@ import com.kalyan.smartmunicipality.citizen.enums.Gender;
 import com.kalyan.smartmunicipality.citizen.mapper.CitizenDtoMapper;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import com.kalyan.smartmunicipality.citizen.repository.CitizenRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -17,59 +20,69 @@ import java.util.stream.Collectors;
 public class CitizenService {
 
     private final CitizenRepository citizenRepository;
-    public CitizenService(CitizenRepository citizenRepository){
 
-        this.citizenRepository=citizenRepository;
+    public CitizenService(CitizenRepository citizenRepository) {
+
+        this.citizenRepository = citizenRepository;
     }
-
-    public CitizenResponseDto createCitizen(CitizenRequestDto citizenRequestDto){
-        Citizen citizen= CitizenDtoMapper.mapToEntity(citizenRequestDto);
+    @CacheEvict(value = "citizenCount", allEntries = true)
+    @CachePut(value = "citizen", key = "#result.id")
+    public CitizenResponseDto createCitizen(CitizenRequestDto citizenRequestDto) {
+        Citizen citizen = CitizenDtoMapper.mapToEntity(citizenRequestDto);
         citizenRepository.save(citizen);
         return CitizenDtoMapper.mapToDto(citizen);
 
     }
 
+    @Cacheable(value = "citizen")
     public List<CitizenResponseDto> getAllCitizens() {
-        return citizenRepository.findAll()
-                .stream()
-                .map(CitizenDtoMapper::mapToDto)
-                .collect(Collectors.toList());
+        return citizenRepository.findAll().stream().map(CitizenDtoMapper::mapToDto).collect(Collectors.toList());
     }
-public Long getCitizenCount(){
-        return citizenRepository.count();
-}
 
-public void deleteCitizenById(Long id){
+    @Cacheable(value = "citizenCount")
+    public Long getCitizenCount() {
+        return citizenRepository.count();
+    }
+
+    @CacheEvict(value = "citizenById", key = "#id")
+    public void deleteCitizenById(Long id) {
         citizenRepository.deleteById(id);
-}
+    }
 
     public CitizenResponseDto updateCitizen(Long id, CitizenRequestDto dto) {
-        Citizen citizen = citizenRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Citizen not found"));
+        Citizen citizen = citizenRepository.findById(id).orElseThrow(() -> new RuntimeException("Citizen not found"));
 
-        // Map updated fields from DTO into the entity
         CitizenDtoMapper.updateEntityFromDto(citizen, dto);
 
-        // Save the updated entity
         Citizen updated = citizenRepository.save(citizen);
 
-        // Return updated DTO
         return CitizenDtoMapper.mapToDto(updated);
     }
 
+    @Cacheable(value = "citizenCount", key = "#id")
+    public CitizenResponseDto getCitizenById(Long id) {
+        Optional<Citizen> citizen = citizenRepository.findById(id);
+        if (citizen.isPresent()) {
+            return CitizenDtoMapper.mapToDto(citizen.get());
+        } else {
+            throw new RuntimeException("Citizen not found");
+        }
+    }
+
+    @Cacheable(value = "male")
     public Long getMaleCount() {
         return citizenRepository.countByGender(Gender.MALE);
     }
 
+    @Cacheable(value = "female")
     public Long getFemaleCount() {
         return citizenRepository.countByGender(Gender.FEMALE);
     }
 
-    public Long getOthersCount(){
-return citizenRepository.countByGender(Gender.OTHERS);
+    @Cacheable(value = "others")
+    public Long getOthersCount() {
+        return citizenRepository.countByGender(Gender.OTHERS);
     }
-
-
 
 
 }
