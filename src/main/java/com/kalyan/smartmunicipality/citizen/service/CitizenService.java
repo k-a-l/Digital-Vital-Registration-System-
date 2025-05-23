@@ -2,6 +2,7 @@ package com.kalyan.smartmunicipality.citizen.service;
 
 import com.kalyan.smartmunicipality.citizen.dto.CitizenRequestDto;
 import com.kalyan.smartmunicipality.citizen.dto.CitizenResponseDto;
+import com.kalyan.smartmunicipality.citizen.enums.CitizenStatus;
 import com.kalyan.smartmunicipality.citizen.enums.Gender;
 import com.kalyan.smartmunicipality.citizen.mapper.CitizenDtoMapper;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
@@ -25,7 +26,7 @@ public class CitizenService {
 
         this.citizenRepository = citizenRepository;
     }
-    @CacheEvict(value = "citizenCount", allEntries = true)
+    @CacheEvict(value = {"citizenCount", "citizenList"}, allEntries = true)
     @CachePut(value = "citizen", key = "#result.id")
     public CitizenResponseDto createCitizen(CitizenRequestDto citizenRequestDto) {
         Citizen citizen = CitizenDtoMapper.mapToEntity(citizenRequestDto);
@@ -33,8 +34,7 @@ public class CitizenService {
         return CitizenDtoMapper.mapToDto(citizen);
 
     }
-
-    @Cacheable(value = "citizen")
+    @Cacheable(value = "citizenList")
     public List<CitizenResponseDto> getAllCitizens() {
         return citizenRepository.findAll().stream().map(CitizenDtoMapper::mapToDto).collect(Collectors.toList());
     }
@@ -82,6 +82,30 @@ public class CitizenService {
     @Cacheable(value = "others")
     public Long getOthersCount() {
         return citizenRepository.countByGender(Gender.OTHERS);
+    }
+
+    @Cacheable(value = "approvedList")
+    public List<CitizenResponseDto> getApprovedCitizens(){
+        return citizenRepository.findAll()
+                .stream()
+                .filter(cit->cit.getStatus().equals(CitizenStatus.APPROVED))
+                .map(CitizenDtoMapper::mapToDto).collect(Collectors.toList());
+    }
+
+    @Cacheable(value = "pendingList")
+    public List<CitizenResponseDto> getPendingCitizens(){
+        return citizenRepository.findAll()
+                .stream()
+                .filter(cit->cit.getStatus().equals(CitizenStatus.PENDING))
+                .map(CitizenDtoMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+    @Cacheable(value = "rejectedList")
+    public List<CitizenResponseDto> getRejectedCitizens(){
+        return citizenRepository.findAll()
+                .stream().filter(citizen -> citizen.getStatus().equals(CitizenStatus.REJECTED))
+                .map(CitizenDtoMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 
 

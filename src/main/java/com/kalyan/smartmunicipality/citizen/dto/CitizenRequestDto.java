@@ -1,5 +1,6 @@
 package com.kalyan.smartmunicipality.citizen.dto;
 
+import com.kalyan.smartmunicipality.citizen.enums.CitizenStatus;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -35,9 +36,9 @@ public class CitizenRequestDto implements Serializable {
     private String fatherName;
     private String motherName;
     private String spouseName;
+    private CitizenStatus status;
 
     private Long phoneNo;
-    private boolean isVerified=false;
     private String grandfatherName;
     private String grandmotherName;
     @NotNull(message = "Cannot be Null")

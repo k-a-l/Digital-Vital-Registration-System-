@@ -2,7 +2,10 @@ package com.kalyan.smartmunicipality.citizen.mapper;
 
 import com.kalyan.smartmunicipality.citizen.dto.CitizenRequestDto;
 import com.kalyan.smartmunicipality.citizen.dto.CitizenResponseDto;
+import com.kalyan.smartmunicipality.citizen.enums.CitizenStatus;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
+
+import java.time.LocalDate;
 
 public class CitizenDtoMapper {
     public static CitizenResponseDto mapToDto(Citizen citizen){
@@ -19,6 +22,7 @@ public class CitizenDtoMapper {
                 .grandmotherName(citizen.getGrandmotherName())
                 .nationality(citizen.getNationality())
                 .district(citizen.getDistrict())
+                .municipality(citizen.getMunicipality())
                 .wardNo(citizen.getWardNo())
                 .gender(citizen.getGender())
                 .tole(citizen.getTole())
@@ -26,6 +30,8 @@ public class CitizenDtoMapper {
                 .verifiedBy(citizen.getVerifiedBy())
                 .verifiedDate(citizen.getVerifiedDate())
                 .createdAt(citizen.getCreatedAt())
+                .reasonForRejection(citizen.getReasonForRejection())
+                .status(citizen.getStatus())
 
                 .build();
 
@@ -48,11 +54,11 @@ public class CitizenDtoMapper {
                 .municipality(dto.getMunicipality())
                 .tole(dto.getTole())
                 .phoneNo(dto.getPhoneNo())
-                .createdAt(dto.getCreatedAt())
+                .createdAt(LocalDate.now())
                 .updatedAt(dto.getUpdatedAt())
                 .verifiedBy(dto.getVerifiedBy())
                 .verifiedDate(dto.getVerifiedDate())
-                .isVerified(dto.isVerified())
+                .status(CitizenStatus.PENDING)
                 .build();
     }
 
@@ -76,7 +82,7 @@ public class CitizenDtoMapper {
         citizen.setVerifiedBy(dto.getVerifiedBy());
         citizen.setVerifiedDate(dto.getVerifiedDate());
         citizen.setUpdatedAt(dto.getUpdatedAt());
-        citizen.setVerified(dto.isVerified());
+
     }
 
 

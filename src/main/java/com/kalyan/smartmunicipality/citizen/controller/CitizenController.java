@@ -66,6 +66,23 @@ public class CitizenController {
         return ResponseEntity.ok(count);
     }
 
+    @GetMapping("/pending-list")
+    public ResponseEntity<List<CitizenResponseDto>> getPendingCitizens(){
+        List<CitizenResponseDto> citizens=citizenService.getPendingCitizens();
+        return ResponseEntity.ok(citizens);
+    }
+
+    @GetMapping("/approved-list")
+    public ResponseEntity<List<CitizenResponseDto>> getApprovedCitizens(){
+        List<CitizenResponseDto> citizens=citizenService.getApprovedCitizens();
+        return ResponseEntity.ok(citizens);
+    }
+
+    @GetMapping("/rejected-list")
+    public ResponseEntity<List<CitizenResponseDto>> getRejectedCitizens(){
+        List<CitizenResponseDto> citizens=citizenService.getRejectedCitizens();
+        return ResponseEntity.ok(citizens);
+    }
 
 
 }

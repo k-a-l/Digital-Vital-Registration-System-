@@ -3,11 +3,11 @@ Content-Type: application/json
 
 {
 
-  "firstName": "Kalyan ",
+  "firstName": "Tan ",
   "middleName": " ",
-  "lastName": "Katwal",
+  "lastName": "Pin",
   "gender": "MALE",
-  "spouseName": "Yunisha Katwal",
+  "spouseName": "Hen Tin",
   "nationality": "Nepali",
   "district": "Kathmandu",
   "municipality": "Tokha",
@@ -18,5 +18,6 @@ Content-Type: application/json
   "grandfatherName": "Bhupadhoj Katwal",
   "grandmotherName": "Radha Thapa",
   "dateOfBirth": "2001-02-26",
-  "phoneNo": "9800055223"
+  "phoneNo": "98111111114"
+
 }

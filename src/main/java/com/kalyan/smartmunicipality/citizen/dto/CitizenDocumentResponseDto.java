@@ -1,5 +1,6 @@
 package com.kalyan.smartmunicipality.citizen.dto;
 
+import com.kalyan.smartmunicipality.citizen.enums.CitizenStatus;
 import com.kalyan.smartmunicipality.citizen.enums.DocumentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +24,5 @@ public class CitizenDocumentResponseDto implements Serializable {
     private LocalDate verifiedDate;
     private LocalDate createdAt=LocalDate.now();
     private LocalDate updatedAt;
+
 }

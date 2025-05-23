@@ -2,6 +2,8 @@ package com.kalyan.smartmunicipality.citizen.model;
 
 import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.model.BirthCertificateRequest;
+import com.kalyan.smartmunicipality.citizen.enums.CitizenStatus;
+import com.kalyan.smartmunicipality.citizen.repository.CitizenRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -42,7 +44,8 @@ public class Citizen implements Serializable {
     private String municipality;
     private int wardNo;
     private String tole;
-    private boolean isVerified;
+    private CitizenStatus status;
+    private String reasonForRejection;
     private LocalDate verifiedDate;
     private Long verifiedBy;
     @CreationTimestamp
