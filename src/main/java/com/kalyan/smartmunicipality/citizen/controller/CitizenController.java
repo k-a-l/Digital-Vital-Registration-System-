@@ -2,13 +2,13 @@ package com.kalyan.smartmunicipality.citizen.controller;
 
 import com.kalyan.smartmunicipality.citizen.dto.CitizenRequestDto;
 import com.kalyan.smartmunicipality.citizen.dto.CitizenResponseDto;
-import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import com.kalyan.smartmunicipality.citizen.service.CitizenService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/citizen")
@@ -82,6 +82,31 @@ public class CitizenController {
     public ResponseEntity<List<CitizenResponseDto>> getRejectedCitizens(){
         List<CitizenResponseDto> citizens=citizenService.getRejectedCitizens();
         return ResponseEntity.ok(citizens);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CitizenResponseDto> getCitizenById(@PathVariable Long id){
+        CitizenResponseDto citizenResponseDto=citizenService.getCitizenById(id);
+        return ResponseEntity.ok(citizenResponseDto);
+    }
+
+    @PostMapping("/{id}/reject")
+    public ResponseEntity<?> rejectCitizen(@PathVariable Long id,
+                                           @RequestBody Map<String, String> body,
+                                           @RequestParam(required = false) Long verifierId) {
+        String reason = body.get("reason");
+
+        citizenService.rejectCitizen(id, reason, verifierId);
+        Map<String, String> response = Map.of("message", "Citizen rejected successfully.");
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{id}/approve")
+    public ResponseEntity<Map<String, String>> approveCitizen(@PathVariable Long id,
+                                           @RequestParam(required = false) Long verifierId) {
+        citizenService.approveCitizen(id, verifierId);
+        Map<String, String> response = Map.of("message", "Citizen approved successfully.");
+        return ResponseEntity.ok(response);
     }
 
 

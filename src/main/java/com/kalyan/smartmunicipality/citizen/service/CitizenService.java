@@ -11,7 +11,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +28,7 @@ public class CitizenService {
 
         this.citizenRepository = citizenRepository;
     }
-    @CacheEvict(value = {"citizenCount", "citizenList"}, allEntries = true)
+    @CacheEvict(value = {"citizenCount", "citizenList","citizenById"}, allEntries = true)
     @CachePut(value = "citizen", key = "#result.id")
     public CitizenResponseDto createCitizen(CitizenRequestDto citizenRequestDto) {
         Citizen citizen = CitizenDtoMapper.mapToEntity(citizenRequestDto);
@@ -39,12 +41,13 @@ public class CitizenService {
         return citizenRepository.findAll().stream().map(CitizenDtoMapper::mapToDto).collect(Collectors.toList());
     }
 
+
     @Cacheable(value = "citizenCount")
     public Long getCitizenCount() {
         return citizenRepository.count();
     }
 
-    @CacheEvict(value = "citizenById", key = "#id")
+    @CacheEvict(value = "citizenDeleteById", key = "#id")
     public void deleteCitizenById(Long id) {
         citizenRepository.deleteById(id);
     }
@@ -59,7 +62,7 @@ public class CitizenService {
         return CitizenDtoMapper.mapToDto(updated);
     }
 
-    @Cacheable(value = "citizenCount", key = "#id")
+    @Cacheable(value = "citizenById", key = "#id")
     public CitizenResponseDto getCitizenById(Long id) {
         Optional<Citizen> citizen = citizenRepository.findById(id);
         if (citizen.isPresent()) {
@@ -106,6 +109,30 @@ public class CitizenService {
                 .stream().filter(citizen -> citizen.getStatus().equals(CitizenStatus.REJECTED))
                 .map(CitizenDtoMapper::mapToDto)
                 .collect(Collectors.toList());
+    }
+    @CacheEvict(value = {
+            "citizenById", "approvedList", "pendingList", "rejectedList", "citizenList", "citizenCount"
+    }, allEntries = true)
+    @Transactional
+    public void rejectCitizen(Long id, String rejectionReason, Long verifiedBy){
+        Citizen citizen = citizenRepository.findById(id).orElseThrow(()->new RuntimeException("Citizen not found"));
+        citizen.setStatus(CitizenStatus.REJECTED);
+        citizen.setReasonForRejection(rejectionReason);
+        citizen.setVerifiedBy(verifiedBy);
+        citizen.setVerifiedDate(LocalDate.now());
+        citizenRepository.save(citizen);
+    }
+    @CacheEvict(value = {
+            "citizenById", "approvedList", "pendingList", "rejectedList", "citizenList", "citizenCount"
+    }, allEntries = true)
+    @Transactional
+    public void approveCitizen(Long id, Long verifiedBy){
+        Citizen citizen = citizenRepository.findById(id).orElseThrow(()->new RuntimeException("Citizen not found"));
+        citizen.setStatus(CitizenStatus.APPROVED);
+        citizen.setVerifiedBy(verifiedBy);
+        citizen.setReasonForRejection(null);
+        citizen.setVerifiedDate(LocalDate.now());
+        citizenRepository.save(citizen);
     }
 
 
