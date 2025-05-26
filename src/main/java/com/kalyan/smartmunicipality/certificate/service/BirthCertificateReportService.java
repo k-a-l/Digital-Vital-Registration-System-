@@ -28,14 +28,11 @@ public class BirthCertificateReportService {
     @Transactional
     public CertificateFile generateBirthCertificateReport(Map<String, Object> parameters, Citizen citizen, BirthCertificateRequest request) {
         try {
-            // Generate reference number first
             String referenceNumber = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
-            // Add to Jasper parameters BEFORE filling the report
             parameters.put("referenceNumber", referenceNumber);
             parameters.put("signedMark", "This document bears a government-authorized digital signature, ensuring its authenticity and integrity.");
             parameters.put("tamperWarning", "Any modification to this document will be detected and deemed unauthorized. Tampering with official documents is a punishable offense under applicable laws.");
-
 
             InputStream reportStream = new ClassPathResource("/reports/birthCertificateReport.jrxml").getInputStream();
             JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
@@ -43,11 +40,7 @@ public class BirthCertificateReportService {
 
             byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
 
-            // Now use the same referenceNumber in the entity
             BigInteger signature = SignatureUtils.sign(pdfBytes, signatureKeysService.getPrivateKey(), signatureKeysService.getModulus());
-
-
-
 
             CertificateFile file = CertificateFile.builder()
                     .filePath("birth_certificate_" + request.getId() + ".pdf")
