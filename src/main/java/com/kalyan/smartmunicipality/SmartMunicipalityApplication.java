@@ -1,6 +1,5 @@
 package com.kalyan.smartmunicipality;
 
-import com.kalyan.smartmunicipality.whatsapp.properties.WhatsappProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,7 +8,9 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
 @EnableCaching
+/*
 @EnableConfigurationProperties(WhatsappProperties.class)
+*/
 
 public class SmartMunicipalityApplication {
 

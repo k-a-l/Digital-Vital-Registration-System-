@@ -17,8 +17,9 @@ public class OtpController {
 
     // Validate Nepal phone number
     public boolean isValidNepalPhoneNumber(String number) {
-        return number.matches("^\\+97798\\d{8}$");
+        return number != null && number.matches("^\\+9779[78]\\d{8}$");
     }
+
 
 
     @PostMapping("/send")
