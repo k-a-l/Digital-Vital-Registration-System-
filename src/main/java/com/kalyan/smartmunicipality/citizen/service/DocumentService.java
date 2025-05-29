@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-
 public class DocumentService {
      private final CitizenDocumentRepository citizenDocumentRepository;
      private final CitizenRepository citizenRepository;
@@ -60,6 +59,19 @@ public class DocumentService {
         }
 
         return responseList;
+    }
+
+    public List<CitizenDocumentResponseDto> getDocumentByCitizenId(Long citizenId){
+
+        Citizen citizen = citizenRepository.findById(citizenId)
+                .orElseThrow(() -> new RuntimeException("Unable to find the citizen"));
+        List<CitizenDocument> documents = citizenDocumentRepository.findByCitizen_Id(citizenId);
+
+        return documents.stream().map(CitizenDocumentMapper::toResponseDto).collect(Collectors.toList());
+
+
+
+
     }
 
 }

@@ -3,9 +3,8 @@ package com.kalyan.smartmunicipality.citizen.model;
 import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.model.BirthCertificateRequest;
 import com.kalyan.smartmunicipality.citizen.enums.CitizenStatus;
-import com.kalyan.smartmunicipality.citizen.repository.CitizenRepository;
+import com.kalyan.smartmunicipality.user.model.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -53,7 +52,7 @@ public class Citizen implements Serializable {
     @UpdateTimestamp
     private LocalDate updatedAt;
 
-    @OneToMany(mappedBy = "citizenId",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "citizen",cascade = CascadeType.ALL)
     private List<CitizenDocument> documents;
 
     @OneToMany(mappedBy = "citizen",cascade = CascadeType.ALL)
@@ -61,6 +60,9 @@ public class Citizen implements Serializable {
 
     @OneToMany(mappedBy = "citizenId",cascade = CascadeType.ALL)
     private List<CertificateFile> certificateFiles;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "citizen")
+    private User user;
 
 
 }

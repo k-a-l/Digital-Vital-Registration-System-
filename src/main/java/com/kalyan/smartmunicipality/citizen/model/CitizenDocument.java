@@ -21,11 +21,12 @@ public class CitizenDocument implements Serializable {
     //Many document belong to one citizen
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "citizen_id", referencedColumnName = "id",nullable = false)
-    private Citizen citizenId;
+    private Citizen citizen;
 
     private DocumentType documentType;
     @Lob
-    private byte[] fileData;
+    @Column(columnDefinition = "TEXT")
+    private String fileData;
     private String fileName;
     private LocalDate uploadDate;
     private Long verifiedBy;

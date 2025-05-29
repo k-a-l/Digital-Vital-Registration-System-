@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Base64;
 
 public class CitizenDocumentMapper {
 
@@ -19,26 +20,25 @@ public class CitizenDocumentMapper {
                     .fileName(document.getFileName())
                     .documentType(document.getDocumentType())
                     .updatedAt(document.getUploadDate())
-                    .citizenId(document.getCitizenId().getId())
+                    .citizenId(document.getCitizen().getId())
                     .verifiedBy(document.getVerifiedBy())
                     .verifiedDate(document.getVerifiedDate())
                     .createdAt(document.getCreatedAt())
+                    .fileData(document.getFileData())
                     .build();
         }
 
     public static CitizenDocument mapToEntity(CitizenDocumentRequestDto dto, Citizen citizen) throws IOException {
         return CitizenDocument.builder()
-                .citizenId(citizen)
+                .citizen(citizen)
                 .documentType(dto.getDocumentType())
-                .fileData(dto.getFile().getBytes())
+                .fileData(Base64.getEncoder().encodeToString(dto.getFile().getBytes()))
                 .fileName(dto.getFile().getOriginalFilename())
                 .uploadDate(LocalDate.now())
                 .verifiedBy(dto.getVerifiedBy())
                 .verifiedDate(dto.getVerifiedDate())
                 .createdAt(LocalDate.now())
                 .updatedAt(LocalDate.now())
-
-
                 .build();
     }
 

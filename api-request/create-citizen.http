@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
 
-  "firstName": "Janam ",
+  "firstName": "Deepen Gautam ",
   "middleName": " ",
   "lastName": "Ju",
   "gender": "MALE",
@@ -18,6 +18,6 @@ Content-Type: application/json
   "grandfatherName": "Bhupadhoj Katwal",
   "grandmotherName": "Radha Thapa",
   "dateOfBirth": "2001-02-26",
-  "phoneNo": "91551001433"
+  "phoneNo": "9147741001433"
 
 }

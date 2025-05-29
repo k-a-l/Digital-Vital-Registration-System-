@@ -73,8 +73,14 @@ public class CitizenDocumentController {
         return ResponseEntity.ok(responses);
     }
 
-
-
+    @GetMapping("/documentByCitizenId/{citizenId}")
+    public ResponseEntity<List<CitizenDocumentResponseDto>> getDocumentByCitizenId(@PathVariable Long citizenId) {
+        List<CitizenDocumentResponseDto> documents = documentService.getDocumentByCitizenId(citizenId);
+        if (documents.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(documents);
+    }
 
 
 

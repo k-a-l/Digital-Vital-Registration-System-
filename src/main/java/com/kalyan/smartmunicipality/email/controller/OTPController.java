@@ -1,4 +1,4 @@
-package com.kalyan.smartmunicipality.email.service.controller;
+package com.kalyan.smartmunicipality.email.controller;
 
 import com.kalyan.smartmunicipality.email.service.OTPService;
 import lombok.RequiredArgsConstructor;

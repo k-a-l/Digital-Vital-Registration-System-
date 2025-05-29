@@ -24,5 +24,6 @@ public class CitizenDocumentResponseDto implements Serializable {
     private LocalDate verifiedDate;
     private LocalDate createdAt=LocalDate.now();
     private LocalDate updatedAt;
+    private String fileData;
 
 }
