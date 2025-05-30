@@ -1,6 +1,7 @@
 package com.kalyan.smartmunicipality.citizen.dto;
 
 import com.kalyan.smartmunicipality.citizen.enums.CitizenStatus;
+import com.kalyan.smartmunicipality.citizen.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class CitizenResponseDto implements Serializable {
     private CitizenStatus status;
 
     private Long phoneNo;
-    private String gender;
+    private Gender gender;
     private String nationality;
     private String district;
     private String municipality;

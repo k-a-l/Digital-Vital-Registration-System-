@@ -3,6 +3,7 @@ package com.kalyan.smartmunicipality.citizen.model;
 import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.model.BirthCertificateRequest;
 import com.kalyan.smartmunicipality.citizen.enums.CitizenStatus;
+import com.kalyan.smartmunicipality.citizen.enums.Gender;
 import com.kalyan.smartmunicipality.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -37,7 +38,8 @@ public class Citizen implements Serializable {
     private String motherName;
     private String grandfatherName;
     private String grandmotherName;
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private String nationality;
     private String district;
     private String municipality;

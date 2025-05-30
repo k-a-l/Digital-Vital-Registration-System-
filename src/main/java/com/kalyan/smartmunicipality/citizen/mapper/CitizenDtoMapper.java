@@ -36,6 +36,7 @@ public class CitizenDtoMapper {
                 .build();
 
     }
+    //save - create
     public static Citizen mapToEntity(CitizenRequestDto dto) {
         return Citizen.builder()
                 .firstName(dto.getFirstName())

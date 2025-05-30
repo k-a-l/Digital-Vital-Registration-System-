@@ -36,7 +36,7 @@ public class StaffUserDtoMapper {
                 .department(staffUserRequestDto.getDepartment())
                 .designation(staffUserRequestDto.getDesignation())
                 .phoneNumber(staffUserRequestDto.getPhoneNumber())
-                .role(Role.STAFF)
+                .role(Role.ADMIN)
                 .createdAt(LocalDateTime.now())
                 .addedBy(addedBy)
 
