@@ -2,6 +2,7 @@ package com.kalyan.smartmunicipality.user.model;
 
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import com.kalyan.smartmunicipality.staff.enums.Role;
+import com.kalyan.smartmunicipality.staff.model.StaffUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,4 +36,8 @@ public class User {
     private Citizen citizen;
 
     private LocalDateTime createdAt;
+
+    @OneToOne
+    @JoinColumn(name="staffUser_id", referencedColumnName = "id")
+    private StaffUser staffUser;
 }

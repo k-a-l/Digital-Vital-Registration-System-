@@ -1,5 +1,6 @@
 package com.kalyan.smartmunicipality.staff.dto;
 
+import com.kalyan.smartmunicipality.staff.enums.Role;
 import com.kalyan.smartmunicipality.staff.model.StaffUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public class StaffUserRequestDto {
         private String designation;
         private String department;
         private StaffUser addedBy;
+        private Role role;
     }
 
 
