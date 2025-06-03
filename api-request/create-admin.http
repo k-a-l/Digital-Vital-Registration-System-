@@ -1,0 +1,13 @@
+POST http://localhost:8080/api/v1/staff/admin
+Content-Type: application/json
+
+
+{
+  "fullName": " Admin",
+  "email": "admin@gmail.com",
+  "password": "SecurePassword123!",
+  "phoneNumber": "98000000000",
+  "designation": "Chief Administrator",
+  "department": "Administration",
+  "role": "ADMIN"
+}

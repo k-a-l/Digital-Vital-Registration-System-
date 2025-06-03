@@ -1,0 +1,13 @@
+POST http://localhost:8080/api/v1/staff/super-admin
+Content-Type: application/json
+
+{
+  "fullName": "Super Admin",
+  "email": "superadmin@smartmun2.gov.np",
+  "password": "SecurePassword123!",
+  "phoneNumber": "9800000000",
+  "designation": "Chief Administrator",
+  "department": "Administration",
+  "addedBy": null,
+  "role": "SUPERADMIN"
+}
