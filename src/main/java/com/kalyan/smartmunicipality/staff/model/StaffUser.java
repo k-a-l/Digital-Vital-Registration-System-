@@ -2,6 +2,7 @@ package com.kalyan.smartmunicipality.staff.model;
 
 import com.kalyan.smartmunicipality.staff.enums.Role;
 import com.kalyan.smartmunicipality.staff.enums.Status;
+import com.kalyan.smartmunicipality.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,7 +31,7 @@ public class StaffUser {
     private String phoneNumber;
 
     @Enumerated(value = EnumType.STRING)
-    private Role role; // STAFF or SUPER_ADMIN
+    private Role role; // ADMIN or SUPER_ADMIN
 
     private String designation;
 
@@ -46,5 +47,8 @@ public class StaffUser {
     @ManyToOne
     @JoinColumn(name = "added_by_id")
     private StaffUser addedBy;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "staffUser")
+    private User user;
 
 }
