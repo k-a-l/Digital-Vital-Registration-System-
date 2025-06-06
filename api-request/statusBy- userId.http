@@ -1,0 +1,2 @@
+
+GET http://localhost:8080/api/v1/citizen/status-by-email?email=dd@gmail.com
