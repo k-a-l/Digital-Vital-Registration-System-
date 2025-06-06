@@ -32,6 +32,10 @@ public class UserController {
         return ResponseEntity.ok(userService.existsByEmail(email));
 
     }
+    @GetMapping("/by-email")
+    public ResponseEntity<UserResponseDto> findByEmail(@RequestParam String email) {
+        return ResponseEntity.ok(userService.findByEmail(email));
+    }
 
 
 

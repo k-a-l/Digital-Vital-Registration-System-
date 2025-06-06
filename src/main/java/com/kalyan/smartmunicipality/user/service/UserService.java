@@ -48,4 +48,8 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
+    public UserResponseDto findByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(()->new RuntimeException("User not found"));
+        return userMapper.toDto(user);
+    }
 }

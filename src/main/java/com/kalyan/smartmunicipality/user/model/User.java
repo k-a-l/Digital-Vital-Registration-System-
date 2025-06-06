@@ -31,8 +31,7 @@ public class User {
 
     private Role role;
 
-    @OneToOne
-    @JoinColumn(name = "citizen_id", referencedColumnName = "id")
+    @OneToOne( mappedBy = "user")
     private Citizen citizen;
 
     private LocalDateTime createdAt;
