@@ -7,35 +7,59 @@ import com.kalyan.smartmunicipality.citizen.enums.Gender;
 import com.kalyan.smartmunicipality.citizen.mapper.CitizenDtoMapper;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import com.kalyan.smartmunicipality.citizen.repository.CitizenRepository;
+import com.kalyan.smartmunicipality.jwt.utils.JwtUtil;
+import com.kalyan.smartmunicipality.user.model.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class CitizenService {
+    private final JwtUtil jwtUtil;
 
     private final CitizenRepository citizenRepository;
 
-    public CitizenService(CitizenRepository citizenRepository) {
+    public CitizenService(JwtUtil jwtUtil, CitizenRepository citizenRepository) {
+        this.jwtUtil = jwtUtil;
 
         this.citizenRepository = citizenRepository;
     }
     @CacheEvict(value = {"citizenCount", "citizenList","citizenById"}, allEntries = true)
     @CachePut(value = "citizen", key = "#result.id")
     public CitizenResponseDto createCitizen(CitizenRequestDto citizenRequestDto) {
-        Citizen citizen = CitizenDtoMapper.mapToEntity(citizenRequestDto);
-        citizenRepository.save(citizen);
-        return CitizenDtoMapper.mapToDto(citizen);
+        User user = jwtUtil.getCurrentUserFromToken();
 
+        // Check if user already has a citizen record
+        if (user.getCitizen() != null) {
+            throw new RuntimeException("Citizen already exists for this user.");
+        }
+
+        Citizen citizen = CitizenDtoMapper.mapToEntity(citizenRequestDto);
+        citizen.setUser(user); // 🔗 Link citizen to user
+
+        // 🔽 Store redundant userId and email as well
+        citizen.setUserId(user.getId());
+        citizen.setUserEmail(user.getEmail());
+
+        citizenRepository.save(citizen);
+
+        return CitizenDtoMapper.mapToDto(citizen);
     }
+
+
     @Cacheable(value = "citizenList")
     public List<CitizenResponseDto> getAllCitizens() {
         return citizenRepository.findAll().stream().map(CitizenDtoMapper::mapToDto).collect(Collectors.toList());
@@ -133,6 +157,41 @@ public class CitizenService {
         citizen.setReasonForRejection(null);
         citizen.setVerifiedDate(LocalDate.now());
         citizenRepository.save(citizen);
+    }
+
+
+    public Optional<Citizen> getCitizenByUserEmail(String email) {
+        return citizenRepository.findByUserEmail(email);
+    }
+
+    public ResponseEntity<?> getMyCitizenStatus() {
+        User user = jwtUtil.getCurrentUserFromToken();
+
+        Optional<Citizen> optionalCitizen = citizenRepository.findByUser(user);
+
+        if (optionalCitizen.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No citizen record found for this user");
+        }
+
+        Citizen citizen = optionalCitizen.get();
+
+        return ResponseEntity.ok(Map.of(
+                "citizenId", citizen.getId(),
+                "status", citizen.getStatus()
+        ));
+    }
+
+    public CitizenResponseDto getCitizenByEmail(String email) {
+        Citizen citizen = citizenRepository.findByUserEmail(email)
+                .orElseThrow(() -> new RuntimeException("Citizen not found for email: " + email));
+        return CitizenDtoMapper.mapToDto(citizen);
+    }
+
+    public CitizenStatus getCitizenStatusByEmail(String email) {
+        Citizen citizen = citizenRepository.findByUserEmail(email)
+                .orElseThrow(() -> new RuntimeException("Citizen not found for email: " + email));
+        return citizen.getStatus();
     }
 
 

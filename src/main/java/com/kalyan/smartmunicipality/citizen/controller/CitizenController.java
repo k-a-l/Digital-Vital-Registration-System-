@@ -2,13 +2,17 @@ package com.kalyan.smartmunicipality.citizen.controller;
 
 import com.kalyan.smartmunicipality.citizen.dto.CitizenRequestDto;
 import com.kalyan.smartmunicipality.citizen.dto.CitizenResponseDto;
+import com.kalyan.smartmunicipality.citizen.enums.CitizenStatus;
+import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import com.kalyan.smartmunicipality.citizen.service.CitizenService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/citizen")
@@ -93,7 +97,7 @@ public class CitizenController {
     @PostMapping("/{id}/reject")
     public ResponseEntity<?> rejectCitizen(@PathVariable Long id,
                                            @RequestBody Map<String, String> body,
-                                           @RequestParam(required = false) Long verifierId) {
+                                           @RequestParam Long verifierId) {
         String reason = body.get("reason");
 
         citizenService.rejectCitizen(id, reason, verifierId);
@@ -103,11 +107,29 @@ public class CitizenController {
 
     @PostMapping("/{id}/approve")
     public ResponseEntity<Map<String, String>> approveCitizen(@PathVariable Long id,
-                                           @RequestParam(required = false) Long verifierId) {
+                                           @RequestParam Long verifierId) {
         citizenService.approveCitizen(id, verifierId);
         Map<String, String> response = Map.of("message", "Citizen approved successfully.");
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/my")
+    public ResponseEntity<?> getMyCitizen() {
+        return citizenService.getMyCitizenStatus();
+    }
+
+    @GetMapping("/by-email")
+    public ResponseEntity<CitizenResponseDto> getCitizenByEmail(@RequestParam String email) {
+        return ResponseEntity.ok(citizenService.getCitizenByEmail(email));
+    }
+
+    @GetMapping("/status-by-email")
+    public ResponseEntity<CitizenStatus> getStatusByEmail(@RequestParam String email) {
+        return ResponseEntity.ok(citizenService.getCitizenStatusByEmail(email));
+    }
+
 
 }
+
+
+

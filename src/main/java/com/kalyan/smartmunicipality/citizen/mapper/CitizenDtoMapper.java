@@ -60,6 +60,7 @@ public class CitizenDtoMapper {
                 .verifiedBy(dto.getVerifiedBy())
                 .verifiedDate(dto.getVerifiedDate())
                 .status(CitizenStatus.PENDING)
+
                 .build();
     }
 

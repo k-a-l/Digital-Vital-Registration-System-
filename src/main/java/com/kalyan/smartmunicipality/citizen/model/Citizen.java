@@ -63,8 +63,18 @@ public class Citizen implements Serializable {
     @OneToMany(mappedBy = "citizenId",cascade = CascadeType.ALL)
     private List<CertificateFile> certificateFiles;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "citizen")
+    // Add these fields
+    @Column(name = "user_id_value")
+    private Long userId;
+
+    @Column(name = "user_email_value")
+    private String userEmail;
+
+    // Keep the existing relationship
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
 
 
 }
