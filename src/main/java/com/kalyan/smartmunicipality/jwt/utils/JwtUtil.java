@@ -1,10 +1,15 @@
 package com.kalyan.smartmunicipality.jwt.utils;
 
+import com.kalyan.smartmunicipality.user.model.User;
+import com.kalyan.smartmunicipality.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +19,10 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
+    private final UserRepository userRepository;
+    private final HttpServletRequest request;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
@@ -57,4 +65,19 @@ public class JwtUtil {
                 .getBody();
         return claims.getSubject();
     }
+
+    public User getCurrentUserFromToken() {
+        String authHeader = request.getHeader("Authorization");
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new RuntimeException("Authorization header is missing or invalid");
+        }
+
+        String token = authHeader.substring(7); // Remove "Bearer "
+
+        String userEmail = getEmailFromToken(token);
+        return userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
 }

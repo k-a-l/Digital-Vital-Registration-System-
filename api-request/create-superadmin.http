@@ -3,8 +3,8 @@ Content-Type: application/json
 
 {
   "fullName": "Super Admin",
-  "email": "superadmin@smartmun2.gov.np",
-  "password": "SecurePassword123!",
+  "email": "superadmin@gmail.com",
+  "password": "kk",
   "phoneNumber": "9800000000",
   "designation": "Chief Administrator",
   "department": "Administration",
