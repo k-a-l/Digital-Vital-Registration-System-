@@ -12,6 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/certificate")
@@ -27,7 +30,7 @@ public class BirthCertificateController {
         return ResponseEntity.ok(savedCertificate);
     }
 
-    @GetMapping("/birth/{id}/download")
+    @GetMapping("/birth/{id}/generate")
     public ResponseEntity<byte[]> downloadCertificate(@PathVariable Long id) {
         byte[] pdf = birthCertificateService.generateBirthCertificateReport(id);
 
@@ -85,6 +88,30 @@ public class BirthCertificateController {
     public ResponseEntity<Iterable<BirthCertificateRequest>> getAllRequests(){
         return ResponseEntity.ok(birthCertificateService.getAllRequests());
     }
+
+    @GetMapping("/citizen/{citizenId}")
+    public ResponseEntity<List<BirthCertificateRequest>> getRequestsByCitizenId(@PathVariable Long citizenId) {
+        return ResponseEntity.ok(birthCertificateService.getRequestByCitizenId(citizenId));
+    }
+
+    @PostMapping("/approve/{id}")
+    public ResponseEntity<Map<String, String>> approveBirthCertificate(@PathVariable Long id){
+        birthCertificateService.approveBirthCertificateRequest(id);
+        return ResponseEntity.ok(Map.of("message","Approved"));
+    }
+
+    @PostMapping("/reject/{id}")
+    public ResponseEntity<Map<String,String>> rejectBirthCertificate(@PathVariable Long id){
+        birthCertificateService.rejectBirthCertificateRequest(id);
+        return ResponseEntity.ok(Map.of("message","Rejected"));
+    }
+
+    @GetMapping("/by-id/{id}")
+    public ResponseEntity<BirthCertificateRequest> getBirthCertificateById(@PathVariable Long id){
+        BirthCertificateRequest req = birthCertificateService.getRequestById(id);
+        return ResponseEntity.ok(req);
+    }
+
 
 
 

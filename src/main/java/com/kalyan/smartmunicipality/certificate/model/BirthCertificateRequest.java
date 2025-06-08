@@ -1,5 +1,7 @@
 package com.kalyan.smartmunicipality.certificate.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.enums.CertificateStatus;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
@@ -40,6 +42,7 @@ public class BirthCertificateRequest implements Serializable {
     private LocalDate dateOfBirth;
 
     @ManyToOne
+    @JsonBackReference(value = "birth-certificate-request")
     @JoinColumn(name = "citizen_id", referencedColumnName = "id", nullable = false)
     private Citizen citizen;
 
@@ -50,6 +53,8 @@ public class BirthCertificateRequest implements Serializable {
     @Enumerated(EnumType.STRING)
     private CertificateStatus status;
 
+    @JsonManagedReference(value = "certificate-file-birth-request")
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "birthCertificateRequest")
     private CertificateFile certificateFile;
 }
+

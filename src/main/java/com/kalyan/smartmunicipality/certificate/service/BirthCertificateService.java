@@ -57,7 +57,6 @@ public class BirthCertificateService {
         BirthCertificateRequest cert = birthCertificateRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Certificate not found"));
 
-        cert.setStatus(CertificateStatus.APPROVED);
         Citizen citizen = cert.getCitizen();
 
         Map<String, Object> params = new HashMap<>();
@@ -118,6 +117,31 @@ public class BirthCertificateService {
                 .stream()
                 .filter(cert->cert.getStatus()==CertificateStatus.REJECTED)
                 .count();
+    }
+    public List<BirthCertificateRequest> getRequestByCitizenId(Long id){
+        return birthCertificateRepository.findByCitizenId(id);
+
+
+    }
+    public void approveBirthCertificateRequest(Long id) {
+        birthCertificateRepository.findById(id).ifPresent(birthCertificate -> {
+            birthCertificate.setStatus(CertificateStatus.APPROVED);
+            birthCertificateRepository.save(birthCertificate);
+        });
+    }
+
+    public void rejectBirthCertificateRequest(Long id) {
+        birthCertificateRepository.findById(id).ifPresent(birthCertificate -> {
+            birthCertificate.setStatus(CertificateStatus.REJECTED);
+            birthCertificateRepository.save(birthCertificate);
+        });
+    }
+
+
+    public BirthCertificateRequest getRequestById(Long id){
+        return birthCertificateRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Certificate not found with ID: " + id));
+
     }
 
 }
