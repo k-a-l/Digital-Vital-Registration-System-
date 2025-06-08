@@ -1,5 +1,6 @@
 package com.kalyan.smartmunicipality.citizen.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.model.BirthCertificateRequest;
 import com.kalyan.smartmunicipality.citizen.enums.CitizenStatus;
@@ -57,11 +58,14 @@ public class Citizen implements Serializable {
     @OneToMany(mappedBy = "citizen",cascade = CascadeType.ALL)
     private List<CitizenDocument> documents;
 
-    @OneToMany(mappedBy = "citizen",cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "certificate-file-citizen")
+    @OneToMany(mappedBy = "citizenId", cascade = CascadeType.ALL)
+    private List<CertificateFile> certificateFiles;
+
+    @JsonManagedReference(value = "birth-certificate-request")
+    @OneToMany(mappedBy = "citizen", cascade = CascadeType.ALL)
     private List<BirthCertificateRequest> birthCertificateRequests;
 
-    @OneToMany(mappedBy = "citizenId",cascade = CascadeType.ALL)
-    private List<CertificateFile> certificateFiles;
 
     // Add these fields
     @Column(name = "user_id_value")
