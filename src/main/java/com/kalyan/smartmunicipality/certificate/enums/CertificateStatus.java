@@ -7,7 +7,7 @@ import lombok.Getter;
 public enum CertificateStatus {
     PENDING("Pending"),
     APPROVED("Approved"),
-    REJECTED("Rejecterd");
+    REJECTED("Rejected");
 
     private final String label;
     CertificateStatus(String label) {
