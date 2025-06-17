@@ -32,13 +32,15 @@ public class BirthCertificateController {
 
     @GetMapping("/birth/{id}/generate")
     public ResponseEntity<byte[]> downloadCertificate(@PathVariable Long id) {
-        byte[] pdf = birthCertificateService.generateBirthCertificateReport(id);
+        CertificateFile file = certificateFileRepository.findByBirthCertificateRequestId(id)
+                .orElseGet(() -> birthCertificateService.generateBirthCertificateReport(id));
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=birth_certificate.pdf")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getFilePath())
                 .contentType(MediaType.APPLICATION_PDF)
-                .body(pdf);
+                .body(file.getFileData());
     }
+
 
     @GetMapping("/download/{referenceNumber}")
     public ResponseEntity<?> downloadCertificateByReferenceNumber(@PathVariable String referenceNumber) {

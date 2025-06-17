@@ -45,7 +45,7 @@ public class BirthCertificateReportService {
             CertificateFile file = CertificateFile.builder()
                     .filePath("birth_certificate_" + request.getId() + ".pdf")
                     .birthCertificateRequest(request)
-                    .citizenId(citizen)
+                    .citizen(citizen)
                     .fileData(pdfBytes)
                     .digitalSignature(signature.toString())
                     .publicKey(signatureKeysService.getPublicKey().toString())
