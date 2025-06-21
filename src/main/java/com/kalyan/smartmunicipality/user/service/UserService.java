@@ -31,7 +31,7 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
-    public UserResponseDto loginUser(UserRequestDto userRequestDto) {
+    /*public UserResponseDto loginUser(UserRequestDto userRequestDto) {
         User user = userRepository.findByEmail(userRequestDto.getEmail())
                 .orElseThrow(()->new RuntimeException("User not found"));
 
@@ -42,7 +42,32 @@ public class UserService {
         user.setJwtToken(token);
         userRepository.save(user);
         return userMapper.toDto(user);
+    }*/
+
+    public UserResponseDto loginUser(UserRequestDto userRequestDto) {
+        User user = userRepository.findByEmail(userRequestDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // ✅ Check password match
+        if (!passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Wrong password");
+        }
+
+        // ✅ Check if it's a staff account and status is ACTIVE
+        if (user.getStaffUser() != null) {
+            if (user.getStaffUser().getStatus() != com.kalyan.smartmunicipality.staff.enums.Status.ACTIVE) {
+                throw new RuntimeException("Your account is inactive. Please contact the system administrator.");
+            }
+        }
+
+        // ✅ Generate new JWT token
+        String token = jwtUtil.generateToken(user.getEmail());
+        user.setJwtToken(token);
+        userRepository.save(user);
+
+        return userMapper.toDto(user);
     }
+
 
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
