@@ -115,7 +115,10 @@ public class BirthCertificateController {
     }
 
 
-
+    @GetMapping("/count-birth")
+    public ResponseEntity<Long> countBirthCertificate(){
+        return new ResponseEntity<>(birthCertificateReportService.countGeneratedBirthCertificate(), HttpStatus.OK);
+    }
 
 
 
