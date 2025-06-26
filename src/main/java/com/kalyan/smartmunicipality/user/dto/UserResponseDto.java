@@ -21,4 +21,5 @@ public class UserResponseDto {
     @Enumerated(EnumType.STRING)
     private Role role;
     private LocalDateTime createdAt;
+    private String department;
 }

@@ -1,5 +1,6 @@
 package com.kalyan.smartmunicipality.staff.dto;
 
+import com.kalyan.smartmunicipality.staff.enums.Department;
 import com.kalyan.smartmunicipality.staff.enums.Role;
 import com.kalyan.smartmunicipality.staff.enums.Status;
 import lombok.AllArgsConstructor;
@@ -20,9 +21,9 @@ public class StaffUserResponseDto {
     private String phoneNumber;
     private Role role;
     private String designation;
-    private String department;
+    private Department department;
     private Status status;
     private LocalDateTime createdAt;
-    private String addedByName;
+    private String addedBy;
 
 }

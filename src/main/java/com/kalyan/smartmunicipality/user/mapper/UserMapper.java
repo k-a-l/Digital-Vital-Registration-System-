@@ -1,6 +1,7 @@
 package com.kalyan.smartmunicipality.user.mapper;
 
 import com.kalyan.smartmunicipality.staff.enums.Role;
+import com.kalyan.smartmunicipality.staff.model.StaffUser;
 import com.kalyan.smartmunicipality.user.dto.UserRequestDto;
 import com.kalyan.smartmunicipality.user.dto.UserResponseDto;
 import com.kalyan.smartmunicipality.user.model.User;
@@ -34,6 +35,7 @@ public class UserMapper {
                 .jwtToken(user.getJwtToken())
                 .role(user.getRole())
                 .createdAt(user.getCreatedAt())
+                .department(user.getStaffUser() !=null? user.getStaffUser().getDepartment().name() : null)
                 .build();
     }
 }

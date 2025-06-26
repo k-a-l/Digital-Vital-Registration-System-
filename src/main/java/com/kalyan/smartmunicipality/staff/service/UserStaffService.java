@@ -15,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +44,7 @@ public class UserStaffService {
                 .password(passwordEncoder.encode(staffUserRequestDto.getPassword()))
                 .createdAt(LocalDateTime.now())
                 .status(Status.ACTIVE)
+                .addedBy(staffUserRequestDto.getAddedBy())
                 .build();
 
         StaffUser savedStaff = staffUserRepository.save(superAdmin);
@@ -70,7 +74,28 @@ public class UserStaffService {
         StaffUser savedStaff = staffUserRepository.save(staffUser);
 
 
-        return StaffUserDtoMapper.staffUserResponseDto(staffUser);
+        return StaffUserDtoMapper.staffUserResponseDto(savedStaff);
 
     }
+
+    public List<StaffUserResponseDto> getStaffByRole(Role role) {
+        List<StaffUser> adminStaff = staffUserRepository.findByRole(role);
+        return adminStaff.stream().map(StaffUserDtoMapper::staffUserResponseDto).collect(Collectors.toList());
+    }
+
+    public void updateStatus(Long id, Status status) {
+        StaffUser staff = staffUserRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Staff not found"));
+        staff.setStatus(status);
+        staffUserRepository.save(staff);
+    }
+
+    public Optional<StaffUser> getStaffByEmail(String email) {
+        return staffUserRepository.findByEmail(email);
+    }
+
+
+
+
+
 }

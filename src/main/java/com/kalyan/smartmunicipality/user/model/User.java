@@ -1,5 +1,7 @@
 package com.kalyan.smartmunicipality.user.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import com.kalyan.smartmunicipality.staff.enums.Role;
 import com.kalyan.smartmunicipality.staff.model.StaffUser;
@@ -7,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+@ToString(onlyExplicitlyIncluded = true)
 
 @Data
 @Builder
@@ -31,6 +34,7 @@ public class User {
 
     private Role role;
 
+    @JsonBackReference(value = "user-data")
     @OneToOne( mappedBy = "user")
     private Citizen citizen;
 
@@ -39,4 +43,5 @@ public class User {
     @OneToOne
     @JoinColumn(name="staffUser_id", referencedColumnName = "id")
     private StaffUser staffUser;
+
 }
