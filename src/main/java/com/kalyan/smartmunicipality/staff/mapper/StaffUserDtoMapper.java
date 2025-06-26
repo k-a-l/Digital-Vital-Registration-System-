@@ -1,6 +1,7 @@
 package com.kalyan.smartmunicipality.staff.mapper;
 
 import com.kalyan.smartmunicipality.jwt.utils.JwtUtil;
+import com.kalyan.smartmunicipality.staff.enums.Status;
 import com.kalyan.smartmunicipality.staff.model.StaffUser;
 import com.kalyan.smartmunicipality.staff.dto.StaffUserRequestDto;
 import com.kalyan.smartmunicipality.staff.dto.StaffUserResponseDto;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 public class StaffUserDtoMapper {
     public static StaffUserResponseDto staffUserResponseDto(StaffUser staffUser){
         return StaffUserResponseDto.builder()
+                .id(staffUser.getId())
                 .fullName(staffUser.getFullName())
                 .email(staffUser.getEmail())
                 .role(staffUser.getRole())
@@ -25,7 +27,8 @@ public class StaffUserDtoMapper {
                 .designation(staffUser.getDesignation())
                 .phoneNumber(staffUser.getPhoneNumber())
                 .createdAt(staffUser.getCreatedAt())
-                .addedByName(staffUser.getAddedBy() != null ? staffUser.getAddedBy().getFullName() : null)
+                .addedBy(staffUser.getAddedBy())
+
 
                 .build();
 
@@ -41,7 +44,8 @@ public class StaffUserDtoMapper {
                 .phoneNumber(staffUserRequestDto.getPhoneNumber())
                 .role(staffUserRequestDto.getRole() != null ? staffUserRequestDto.getRole() : Role.ADMIN)
                 .createdAt(LocalDateTime.now())
-                .addedBy(addedBy)
+                .status(Status.ACTIVE)
+                .addedBy(staffUserRequestDto.getAddedBy())
 
                 .build();
 
@@ -53,6 +57,7 @@ public class StaffUserDtoMapper {
                 .staffUser(savedStaff)
                 .createdAt(LocalDateTime.now())
                 .jwtToken(jwtUtil.generateToken(savedStaff.getEmail()))
+
                 .build();
         savedStaff.setUser(user);
         return savedStaff;

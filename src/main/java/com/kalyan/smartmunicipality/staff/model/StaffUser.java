@@ -1,5 +1,6 @@
 package com.kalyan.smartmunicipality.staff.model;
 
+import com.kalyan.smartmunicipality.staff.enums.Department;
 import com.kalyan.smartmunicipality.staff.enums.Role;
 import com.kalyan.smartmunicipality.staff.enums.Status;
 import com.kalyan.smartmunicipality.user.model.User;
@@ -35,7 +36,8 @@ public class StaffUser {
 
     private String designation;
 
-    private String department;
+    @Enumerated(value = EnumType.STRING)
+    private Department department;
 
     @Enumerated(EnumType.STRING)
     private Status status; // ACTIVE or INACTIVE
@@ -44,9 +46,8 @@ public class StaffUser {
 
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "added_by_id")
-    private StaffUser addedBy;
+
+    private String addedBy;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "staffUser")
     private User user;
