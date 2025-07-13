@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="MarriageCertificate"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="535"
+              leftMargin="30"
+              rightMargin="30"
+              topMargin="20"
+              bottomMargin="20">
+
+    <!-- Parameters -->
+    <parameter name="referenceNumber" class="java.lang.String"/>
+    <parameter name="requestedBy" class="java.lang.String"/>
+    <parameter name="husbandName" class="java.lang.String"/>
+    <parameter name="wifeName" class="java.lang.String"/>
+    <parameter name="marriageDate" class="java.lang.String"/>
+    <parameter name="requestedAt" class="java.lang.String"/>
+    <parameter name="verifiedAt" class="java.lang.String"/>
+    <parameter name="husbandPhoto" class="java.io.InputStream"/>
+    <parameter name="wifePhoto" class="java.io.InputStream"/>
+    <parameter name="husbandCitizenshipNumber" class="java.lang.String"/>
+    <parameter name="wifeCitizenshipNumber" class="java.lang.String"/>
+    <parameter name="passportNumber" class="java.lang.String"/>
+    <parameter name="issuedBy" class="java.lang.String"/>
+    <parameter name="VerifiedBy" class="java.lang.String"/>
+    <parameter name="signedMark" class="java.lang.String"/>
+    <parameter name="tamperWarning" class="java.lang.String"/>
+
+    <!-- Title -->
+    <title>
+        <band height="80">
+            <staticText>
+                <reportElement x="400" y="0" width="150" height="20"/>
+                <textElement textAlignment="Right">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Ref No: $P{referenceNumber}]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="0" y="30" width="535" height="30"/>
+                <textElement textAlignment="Center">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Marriage Certificate]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <!-- Detail -->
+    <detail>
+        <band height="700">
+            <!-- Photos -->
+            <image>
+                <reportElement x="60" y="10" width="100" height="120"/>
+                <imageExpression><![CDATA[$P{husbandPhoto}]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement x="60" y="135" width="100" height="15"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[Husband]]></text>
+            </staticText>
+
+            <image>
+                <reportElement x="220" y="10" width="100" height="120"/>
+                <imageExpression><![CDATA[$P{wifePhoto}]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement x="220" y="135" width="100" height="15"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[Wife]]></text>
+            </staticText>
+
+            <!-- Certificate Paragraph -->
+            <textField>
+                <reportElement x="0" y="170" width="535" height="50"/>
+                <textElement textAlignment="Justified"/>
+                <textFieldExpression><![CDATA["This is to certify that " + $P{husbandName} + " and " + $P{wifeName} + " were lawfully married on " + $P{marriageDate} + ". This certificate is issued for official purposes."]]></textFieldExpression>
+            </textField>
+
+            <!-- Details Table -->
+            <frame>
+                <reportElement x="0" y="230" width="535" height="200"/>
+                <staticText>
+                    <reportElement x="0" y="0" width="200" height="20"/>
+                    <text><![CDATA[Husband Citizenship No:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="210" y="0" width="300" height="20"/>
+                    <textFieldExpression><![CDATA[$P{husbandCitizenshipNumber}]]></textFieldExpression>
+                </textField>
+
+                <staticText>
+                    <reportElement x="0" y="25" width="200" height="20"/>
+                    <text><![CDATA[Wife Citizenship No:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="210" y="25" width="300" height="20"/>
+                    <textFieldExpression><![CDATA[$P{wifeCitizenshipNumber}]]></textFieldExpression>
+                </textField>
+
+
+
+                <staticText>
+                    <reportElement x="0" y="75" width="200" height="20"/>
+                    <text><![CDATA[Passport No:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="210" y="75" width="300" height="20"/>
+                    <textFieldExpression><![CDATA[$P{passportNumber}]]></textFieldExpression>
+                </textField>
+
+                <staticText>
+                    <reportElement x="0" y="100" width="200" height="20"/>
+                    <text><![CDATA[Issued By:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="210" y="100" width="300" height="20"/>
+                    <textFieldExpression><![CDATA[$P{issuedBy}]]></textFieldExpression>
+                </textField>
+
+                <staticText>
+                    <reportElement x="0" y="125" width="200" height="20"/>
+                    <text><![CDATA[Verified By:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="210" y="125" width="300" height="20"/>
+                    <textFieldExpression><![CDATA[$P{VerifiedBy}]]></textFieldExpression>
+                </textField>
+
+                <staticText>
+                    <reportElement x="0" y="150" width="200" height="20"/>
+                    <text><![CDATA[Requested At:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="210" y="150" width="300" height="20"/>
+                    <textFieldExpression><![CDATA[$P{requestedAt}]]></textFieldExpression>
+                </textField>
+
+                <staticText>
+                    <reportElement x="0" y="175" width="200" height="20"/>
+                    <text><![CDATA[Verified At:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="210" y="175" width="300" height="20"/>
+                    <textFieldExpression><![CDATA[$P{verifiedAt}]]></textFieldExpression>
+                </textField>
+            </frame>
+
+            <!-- Signed Mark -->
+            <textField>
+                <reportElement x="0" y="440" width="535" height="30"/>
+                <textElement textAlignment="Justified"/>
+                <textFieldExpression><![CDATA[$P{signedMark}]]></textFieldExpression>
+            </textField>
+
+            <!-- Seal Placeholder -->
+            <staticText>
+                <reportElement x="400" y="480" width="120" height="40"/>
+                <textElement textAlignment="Center">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[[Seal Here]]]></text>
+            </staticText>
+
+            <!-- Tamper Warning -->
+            <textField>
+                <reportElement x="0" y="540" width="535" height="40"/>
+                <textElement textAlignment="Justified">
+                    <font isItalic="true" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{tamperWarning}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>
