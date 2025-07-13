@@ -5,13 +5,9 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
 
 @Slf4j
 @Service
@@ -20,38 +16,42 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
-
-    public void sendEmail(String to, String subject, String body) {
+    // ✅ Send HTML email (without attachment)
+    public void sendEmail(String to, String subject, String htmlContent) {
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(to);
-            message.setSubject(subject);
-            message.setText(body);
-            mailSender.send(message);
-            log.info("Plain email sent to: {}, Subject: {}, Body: {}", to, subject, body);
-        } catch (Exception e) {
-            log.error("Failed to send plain email to {}: {}", to, e.getMessage());
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlContent, true); // true = HTML content
+            mailSender.send(mimeMessage);
+
+            log.info("HTML email sent to: {}, Subject: {}", to, subject);
+        } catch (MessagingException e) {
+            log.error("Failed to send HTML email to {}: {}", to, e.getMessage());
         }
     }
 
-
-    public void sendEmailWithAttachment(String to, String subject, String text, byte[] attachmentData) {
+    // ✅ Send HTML email with a PDF attachment
+    public void sendEmailWithAttachment(String to, String subject, String htmlContent, byte[] attachmentData) {
         try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(text);
+            helper.setText(htmlContent, true); // true = HTML content
 
-            // Attach the byte[] as a file (e.g., certificate.pdf)
+            // Attach byte[] as a file
             ByteArrayResource attachment = new ByteArrayResource(attachmentData);
             helper.addAttachment("certificate.pdf", attachment);
 
-            mailSender.send(message);
+            mailSender.send(mimeMessage);
+
+            log.info("HTML email with attachment sent to: {}", to);
         } catch (MessagingException e) {
-            throw new RuntimeException("Failed to send email with attachment", e);
+            log.error("Failed to send HTML email with attachment to {}: {}", to, e.getMessage());
+            throw new RuntimeException("Failed to send HTML email with attachment", e);
         }
     }
-
 }
