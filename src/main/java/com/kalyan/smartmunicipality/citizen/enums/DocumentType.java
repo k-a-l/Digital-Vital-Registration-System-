@@ -8,6 +8,9 @@ public enum DocumentType {
     VOTER_ID("Voter ID Card"),
     NATIONAL_ID("National ID"),
     LICENCE("License"),
+    DEATH("Death"),
+    BIRTH("Birth"),
+    MARRIAGE("Marriage"),
     PASSPORT("Passport");
 
     private final String label;
