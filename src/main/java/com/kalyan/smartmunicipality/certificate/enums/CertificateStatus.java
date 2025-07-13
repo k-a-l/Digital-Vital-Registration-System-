@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 public enum CertificateStatus {
     PENDING("Pending"),
+    PENDING_VIDEO_CALL_VERIFICATION("Pending Video Call Verification"),
     APPROVED("Approved"),
     REJECTED("Rejected");
 
