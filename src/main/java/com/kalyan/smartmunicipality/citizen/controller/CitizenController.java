@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,8 +41,8 @@ public class CitizenController {
         return ResponseEntity.ok(count);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<CitizenResponseDto> updateCitizen(@RequestParam Long id, @Valid @RequestBody CitizenRequestDto citizenRequestDto){
+    @PutMapping("/update/{id}")
+    public ResponseEntity<CitizenResponseDto> updateCitizen(@PathVariable Long id, @Valid @RequestBody CitizenRequestDto citizenRequestDto){
         CitizenResponseDto citizenResponseDto=citizenService.updateCitizen(id, citizenRequestDto);
         return ResponseEntity.ok(citizenResponseDto);
     }
@@ -127,6 +128,12 @@ public class CitizenController {
     public ResponseEntity<CitizenStatus> getStatusByEmail(@RequestParam String email) {
         return ResponseEntity.ok(citizenService.getCitizenStatusByEmail(email));
     }
+@GetMapping("/by-citizenship-date-of-birth")
+    public ResponseEntity<CitizenResponseDto> getCitizenByCitizenshipNumberAndDateOfBirth(@RequestParam String citizenshipNumber,
+                                                                                          @RequestParam LocalDate dateOfBirth) {
+        CitizenResponseDto citizen = citizenService.getCitizenByCitizenshipNumberAndDateOfBirth(citizenshipNumber, dateOfBirth);
+        return ResponseEntity.ok(citizen);
+}
 
 
 }

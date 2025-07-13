@@ -32,6 +32,10 @@ public class CitizenDtoMapper {
                 .createdAt(citizen.getCreatedAt())
                 .reasonForRejection(citizen.getReasonForRejection())
                 .status(citizen.getStatus())
+                .marriageStatus(citizen.getMarriageStatus())
+                .citizenshipNumber(citizen.getCitizenshipNumber())
+                .updatedAt(citizen.getUpdatedAt())
+
 
                 .build();
 
@@ -56,11 +60,12 @@ public class CitizenDtoMapper {
                 .tole(dto.getTole())
                 .phoneNo(dto.getPhoneNo())
                 .createdAt(LocalDate.now())
-                .updatedAt(dto.getUpdatedAt())
+               // .updatedAt(dto.getUpdatedAt())
                 .verifiedBy(dto.getVerifiedBy())
                 .verifiedDate(dto.getVerifiedDate())
                 .status(CitizenStatus.PENDING)
-
+                .marriageStatus(dto.getMarriageStatus())
+                .citizenshipNumber(dto.getCitizenshipNumber())
                 .build();
     }
 
@@ -83,8 +88,10 @@ public class CitizenDtoMapper {
         citizen.setPhoneNo(dto.getPhoneNo());
         citizen.setVerifiedBy(dto.getVerifiedBy());
         citizen.setVerifiedDate(dto.getVerifiedDate());
-        citizen.setUpdatedAt(dto.getUpdatedAt());
-
+        citizen.setMarriageStatus(dto.getMarriageStatus());
+        citizen.setCitizenshipNumber(dto.getCitizenshipNumber());
+        citizen.setStatus(CitizenStatus.PENDING);
+        citizen.setUpdatedAt(LocalDate.now());
     }
 
 

@@ -2,6 +2,7 @@ package com.kalyan.smartmunicipality.citizen.dto;
 
 import com.kalyan.smartmunicipality.citizen.enums.CitizenStatus;
 import com.kalyan.smartmunicipality.citizen.enums.Gender;
+import com.kalyan.smartmunicipality.citizen.enums.MarriageStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,5 +40,8 @@ public class CitizenResponseDto implements Serializable {
     private Long verifiedBy;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+    private MarriageStatus marriageStatus;
+    private String citizenshipNumber;
+
 
 }

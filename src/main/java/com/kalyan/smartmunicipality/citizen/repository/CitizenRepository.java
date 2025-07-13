@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
@@ -20,4 +21,5 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long>{
 
     Citizen findCitizenByUserId(Long userId);
 
+    Citizen findByCitizenshipNumberAndDateOfBirth(String citizenshipNumber, LocalDate dateOfBirth);
 }

@@ -1,5 +1,6 @@
 package com.kalyan.smartmunicipality.citizen.dto;
 
+import com.kalyan.smartmunicipality.certificate.model.DeathCertificateRequest;
 import com.kalyan.smartmunicipality.citizen.enums.DocumentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,4 +25,5 @@ public class CitizenDocumentRequestDto implements Serializable {
     private LocalDate verifiedDate;
     private LocalDate createdAt=LocalDate.now();
     private LocalDate updatedAt;
+    private DeathCertificateRequest deathCertificateRequestId;
 }

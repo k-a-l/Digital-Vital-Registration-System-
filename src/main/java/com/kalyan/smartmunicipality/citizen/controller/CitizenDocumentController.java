@@ -1,19 +1,21 @@
 package com.kalyan.smartmunicipality.citizen.controller;
 
+import com.kalyan.smartmunicipality.certificate.model.DeathCertificateRequest;
 import com.kalyan.smartmunicipality.citizen.dto.CitizenDocumentRequestDto;
 import com.kalyan.smartmunicipality.citizen.dto.CitizenDocumentResponseDto;
 import com.kalyan.smartmunicipality.citizen.enums.DocumentType;
 import com.kalyan.smartmunicipality.citizen.service.DocumentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
+@Slf4j
 @RestController
 @RequestMapping("api/v1/citizen/document")
 public class CitizenDocumentController {
@@ -27,14 +29,17 @@ public class CitizenDocumentController {
             @RequestParam("file") MultipartFile file,
             @RequestParam("citizenId") Long citizenId,
             @RequestParam("documentType") String documentType,
-            @RequestParam(value = "verifiedBy", required = false) Long verifiedBy
+            @RequestParam(value = "verifiedBy", required = false) Long verifiedBy,
+            @RequestParam(value ="deathCertificateRequestId",required = false) DeathCertificateRequest deathCertificateRequestId
     ) throws Exception {
         CitizenDocumentRequestDto requestDto = CitizenDocumentRequestDto.builder()
                 .citizenId(citizenId)
                 .documentType(Enum.valueOf(DocumentType.class, documentType))
                 .verifiedBy(verifiedBy)
                 .file(file)
+                .deathCertificateRequestId(deathCertificateRequestId)
                 .build();
+        log.warn("Uploading document, {}",deathCertificateRequestId);
 
         CitizenDocumentResponseDto responseDto = documentService.uploadDocument(requestDto);
         return ResponseEntity.ok(responseDto);
@@ -54,7 +59,10 @@ public class CitizenDocumentController {
             @RequestParam("files") MultipartFile[] files,
             @RequestParam("citizenId") Long citizenId,
             @RequestParam("documentType") String documentType,
-            @RequestParam(value = "verifiedBy", required = false) Long verifiedBy
+            @RequestParam(value = "verifiedBy", required = false) Long verifiedBy,
+            @RequestParam(value ="deathCertificateRequestId",required = false) DeathCertificateRequest deathCertificateRequestId
+
+
     ) throws Exception {
 
         List<CitizenDocumentResponseDto> responses = new ArrayList<>();
@@ -65,6 +73,7 @@ public class CitizenDocumentController {
                     .documentType(DocumentType.valueOf(documentType))
                     .verifiedBy(verifiedBy)
                     .file(file)
+                    .deathCertificateRequestId(deathCertificateRequestId)
                     .build();
 
             responses.add(documentService.uploadDocument(dto));
