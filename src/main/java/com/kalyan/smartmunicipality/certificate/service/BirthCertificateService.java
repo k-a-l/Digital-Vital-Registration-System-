@@ -7,15 +7,25 @@ import com.kalyan.smartmunicipality.certificate.repository.BirthCertificateRepos
 import com.kalyan.smartmunicipality.certificate.repository.CertificateFileRepository;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import com.kalyan.smartmunicipality.citizen.repository.CitizenRepository;
+import com.kalyan.smartmunicipality.email.service.EmailService;
+import com.kalyan.smartmunicipality.notification.enums.DeliveryChannel;
+import com.kalyan.smartmunicipality.notification.enums.NotificationEvent;
+import com.kalyan.smartmunicipality.notification.enums.NotificationType;
+import com.kalyan.smartmunicipality.notification.model.Notification;
+import com.kalyan.smartmunicipality.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class BirthCertificateService {
@@ -23,6 +33,8 @@ public class BirthCertificateService {
     private final CitizenRepository citizenRepository;
     private final BirthCertificateReportService birthCertificateReportService;
     private final CertificateFileRepository certificateFileRepository;
+    private final NotificationService notificationService;
+    private final EmailService emailService;
 
 
     public BirthCertificateRequest saveCertificate(BirthCertificateRequest birthCertificate) {
@@ -45,15 +57,29 @@ public class BirthCertificateService {
         birthCertificate.setStatus(CertificateStatus.PENDING);
         birthCertificate.setRequestedBy(citizen.getId());
         birthCertificate.setRequestedAt(LocalDate.now());
-        //date of birth, childName , gender fields directly associaate with birtcertificate request repo it directly comes from json
-        return birthCertificateRepository.save(birthCertificate);
+
+        BirthCertificateRequest savedRequest = birthCertificateRepository.save(birthCertificate);
+
+
+        Notification.NotificationBuilder notification = Notification.builder()
+                .event(NotificationEvent.REVIEWING)
+                .channel(DeliveryChannel.EMAIL)
+                .type(NotificationType.EMAIL)
+                .email(savedRequest.getCitizen().getUserEmail())
+                .citizen(citizen)
+                .message("Dear, "+ citizen.getFirstName() + "Your Birth Certificate has been successfully submitted and is under review.")
+                .createdAt(LocalDateTime.now());
+
+
+        notificationService.sendAndDispatch(notification.build());
+        return savedRequest;
     }
 
     public CertificateFile getCertificateByReferenceNumber(String referenceNumber) {
         return certificateFileRepository.findByReferenceNumber(referenceNumber);
     }
 
-    public byte[] generateBirthCertificateReport(Long id) {
+    public CertificateFile generateBirthCertificateReport(Long id) {
         BirthCertificateRequest cert = birthCertificateRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Certificate not found"));
 
@@ -84,7 +110,7 @@ public class BirthCertificateService {
 
         params.put("referenceNumber", file.getReferenceNumber());
 
-        return file.getFileData();
+        return file;
     }
 
     public Long countBirthCertificateRequests(){
@@ -126,7 +152,34 @@ public class BirthCertificateService {
     public void approveBirthCertificateRequest(Long id) {
         birthCertificateRepository.findById(id).ifPresent(birthCertificate -> {
             birthCertificate.setStatus(CertificateStatus.APPROVED);
-            birthCertificateRepository.save(birthCertificate);
+            BirthCertificateRequest savedRequest = birthCertificateRepository.save(birthCertificate);
+            Citizen citizen = savedRequest.getCitizen();
+
+            CertificateFile file = certificateFileRepository.findByBirthCertificateRequestId(id)
+                    .orElseGet(() -> generateBirthCertificateReport(id));
+
+           //File certificatePdf = new File(file.getFilePath());
+           // log.warn("file Path {}", certificatePdf);// assume you store absolute path
+            String to = savedRequest.getCitizen().getUserEmail();
+            //String subject = "Municipality Notification - Birth Certificate Approved";
+            String message = "Dear " + citizen.getFirstName() + ",\n\nYour birth certificate has been approved and is attached to this email.\n\nRegards,\nSmart Municipality";
+
+           // emailService.sendEmailWithAttachment(to, subject, message, certificatePdf);
+
+            // Optionally still log/send notification via Kafka
+            Notification notification = Notification.builder()
+                    .event(NotificationEvent.REVIEWING)
+                    .channel(DeliveryChannel.BOTH)
+                    .type(NotificationType.EMAIL)
+                    .email(to)
+                    .citizen(citizen)
+                    .message(message)
+                    .createdAt(LocalDateTime.now())
+                    .certificate(file)
+                    .certificateId(file.getId())
+                    .build();
+
+            notificationService.sendAndDispatch(notification);
         });
     }
 
@@ -142,6 +195,16 @@ public class BirthCertificateService {
         return birthCertificateRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Certificate not found with ID: " + id));
 
+    }
+
+    public Long countBirthCertificateRequest(){
+        return birthCertificateRepository.count();
+    }
+
+    public Map<String, Long> countBirthByMonth(){
+        return birthCertificateRepository.findAll()
+                .stream()
+                .collect(Collectors.groupingBy(request -> request.getRequestedAt().getMonth().name(), Collectors.counting()));
     }
 
 }

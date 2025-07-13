@@ -6,10 +6,7 @@ import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.enums.CertificateStatus;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -53,6 +50,7 @@ public class BirthCertificateRequest implements Serializable {
     @Enumerated(EnumType.STRING)
     private CertificateStatus status;
 
+    @ToString.Exclude
     @JsonManagedReference(value = "certificate-file-birth-request")
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "birthCertificateRequest")
     private CertificateFile certificateFile;
