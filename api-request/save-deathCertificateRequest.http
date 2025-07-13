@@ -1,0 +1,21 @@
+POST http://localhost:8080/api/v1/death-certificate/save
+Content-Type: application/json
+
+{
+  "deceasedName": "Hari Prasad Sharma",
+  "deceasedDate": "2024-12-20",
+  "dateOfBirth": "1960-03-10",
+  "causeOfDeath": "Cardiac Arrest",
+  "placeOfDeath": "Norvic Hospital, Kathmandu",
+  "citizenshipNumber": "01-23-45-67890",
+  "gender": "MALE",
+  "fatherName": "Hari Hari Kumar Sahah",
+  "motherName": "Manu Maya",
+  "relation": "SON",
+  "requestedBy": {
+    "id": 1
+  },
+  "citizenDocument": {
+    "id": 1
+  }
+}
