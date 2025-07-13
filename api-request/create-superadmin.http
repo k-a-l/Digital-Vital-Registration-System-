@@ -7,7 +7,7 @@ Content-Type: application/json
   "password": "kk",
   "phoneNumber": "9800000000",
   "designation": "Chief Administrator",
-  "department": "Administration",
-  "addedBy": null,
+  "department": "ADMINISTRATION_DEPARTMENT",
+  "addedBy": "Kalyan Katwal",
   "role": "SUPERADMIN"
 }

@@ -4,10 +4,11 @@ Content-Type: application/json
 
 {
   "fullName": " Admin",
-  "email": "admin@gmail.com",
+  "email": "admin633@gmail.com",
   "password": "kk",
   "phoneNumber": "98000000000",
   "designation": "Chief Administrator",
   "department": "Administration",
-  "role": "ADMIN"
+  "role": "ADMIN",
+  "status": "ACTIVE"
 }
