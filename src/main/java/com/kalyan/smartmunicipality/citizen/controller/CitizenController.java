@@ -128,11 +128,18 @@ public class CitizenController {
     public ResponseEntity<CitizenStatus> getStatusByEmail(@RequestParam String email) {
         return ResponseEntity.ok(citizenService.getCitizenStatusByEmail(email));
     }
-@GetMapping("/by-citizenship-date-of-birth")
+    @GetMapping("/by-citizenship-date-of-birth")
     public ResponseEntity<CitizenResponseDto> getCitizenByCitizenshipNumberAndDateOfBirth(@RequestParam String citizenshipNumber,
                                                                                           @RequestParam LocalDate dateOfBirth) {
         CitizenResponseDto citizen = citizenService.getCitizenByCitizenshipNumberAndDateOfBirth(citizenshipNumber, dateOfBirth);
         return ResponseEntity.ok(citizen);
+}
+
+@GetMapping("/by-municipality")
+    public ResponseEntity<List<CitizenResponseDto>> getMunicipalities(@RequestParam String municipality) {
+        List<CitizenResponseDto> citizens = citizenService.getCitizenByMunicipality(municipality);
+        return ResponseEntity.ok(citizens);
+
 }
 
 

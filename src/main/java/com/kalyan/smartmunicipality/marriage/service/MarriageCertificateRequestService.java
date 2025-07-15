@@ -272,7 +272,7 @@ public class MarriageCertificateRequestService {
                 .requestedByFullName(req.getRequestedBy().getFirstName())
                 .status(req.getStatus().name())
                 .videoVerificationLink(req.getVideoVerificationLink())
-                .placeOfMarriage(req.getPlaceOfMarriage())
+                .placeOfMarriage(req.getMunicipality())
                 .marriageDate(req.getMarriageDate())
                 .requestedAt(req.getRequestedAt())
                 .verifiedAt(req.getVerifiedAt())
@@ -378,6 +378,18 @@ public class MarriageCertificateRequestService {
 
         return file;
     }
+
+    public Optional<List<MarriageCertificateResponseDto>> getMarriageCertificateByMunicipality(String municipality) {
+        List<MarriageCertificateRequest> certificateRequests = marriageCertificateRequestRepository
+                .findByMunicipality(municipality).stream().toList();
+
+        List<MarriageCertificateResponseDto> responseDtos = certificateRequests.stream()
+                .map(MarriageCertificateRequestMapper::toMarriageCertificateResponseDto)
+                .collect(Collectors.toList());
+
+        return Optional.of(responseDtos);
+    }
+
 
 
 

@@ -7,7 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
-@EnableCaching
+//@EnableCaching
 /*
 @EnableConfigurationProperties(WhatsappProperties.class)
 */

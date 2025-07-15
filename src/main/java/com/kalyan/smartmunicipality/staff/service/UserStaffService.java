@@ -43,6 +43,8 @@ public class UserStaffService {
                 .phoneNumber(staffUserRequestDto.getPhoneNumber())
                 .password(passwordEncoder.encode(staffUserRequestDto.getPassword()))
                 .createdAt(LocalDateTime.now())
+                .district(staffUserRequestDto.getDistrict())
+                .municipality(staffUserRequestDto.getMunicipality())
                 .status(Status.ACTIVE)
                 .addedBy(staffUserRequestDto.getAddedBy())
                 .build();

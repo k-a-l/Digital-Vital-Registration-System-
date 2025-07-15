@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -100,6 +101,11 @@ public class MarriageCertificateController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(file.getFileData());
 
+    }
+
+    @GetMapping("/by-municipality")
+    public ResponseEntity<Optional<List<MarriageCertificateResponseDto>>> getByMunicipality(@RequestParam String municipality) {
+        return ResponseEntity.ok().body(marriageCertificateRequestService.getMarriageCertificateByMunicipality(municipality));
     }
 
 

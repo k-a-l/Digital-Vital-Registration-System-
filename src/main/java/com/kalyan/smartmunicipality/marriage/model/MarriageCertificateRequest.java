@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.enums.CertificateStatus;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
+import com.kalyan.smartmunicipality.staff.model.StaffUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -54,7 +55,7 @@ public class MarriageCertificateRequest implements Serializable {
 
 
     private LocalDate marriageDate;
-    private String placeOfMarriage;
+    private String municipality;
 
     // Ward office recommendation file
     @Lob
@@ -80,6 +81,10 @@ public class MarriageCertificateRequest implements Serializable {
     @JsonManagedReference(value = "certificate-file-marriage-request")
     @OneToOne(cascade = CascadeType.MERGE, mappedBy = "marriageCertificateRequest")
     private CertificateFile certificateFile;
+
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private StaffUser staffUser;
 
 
 

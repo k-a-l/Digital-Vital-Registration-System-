@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -67,4 +68,15 @@ public class DeathCertificateController {
     public ResponseEntity<Long> countDeathCertificateRequests() {
         return ResponseEntity.ok().body(deathCertificateRequestService.countDeathCertificateRequest());
     }
+
+@GetMapping("/by-municipality")
+    public ResponseEntity<Optional<List<DeathCertificateRequest>>> getDeathCertificateRequestsByMunicipality(@RequestParam String municipality) {
+        return ResponseEntity.ok().body(deathCertificateRequestService.getDeathCertificateRequestByMunicipality(municipality));
+}
+
+@PatchMapping("{id}/verify")
+    public ResponseEntity<Map<String,String>> verifyDeathCertificate(@PathVariable long id) {
+        deathCertificateRequestService.approveByVerifier(id);
+        return ResponseEntity.ok(Map.of("status", "verified"));
+}
 }

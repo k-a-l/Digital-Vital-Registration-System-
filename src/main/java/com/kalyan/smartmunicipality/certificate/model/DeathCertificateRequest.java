@@ -8,6 +8,7 @@ import com.kalyan.smartmunicipality.certificate.enums.Relation;
 import com.kalyan.smartmunicipality.citizen.enums.Gender;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import com.kalyan.smartmunicipality.citizen.model.CitizenDocument;
+import com.kalyan.smartmunicipality.staff.model.StaffUser;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,10 @@ public class DeathCertificateRequest implements Serializable {
     private LocalDate dateOfBirth;
     private String causeOfDeath;
     private String placeOfDeath;
+    private String nationality;
+    private String district;
+    private String municipality;
+    private int wardNo;
     @Column(unique = true, nullable = true)
     private String citizenshipNumber;
     @Enumerated(EnumType.STRING)
@@ -63,6 +68,9 @@ public class DeathCertificateRequest implements Serializable {
     @JsonManagedReference(value = "death-certificate")
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "deathCertificateRequest")
     private CertificateFile certificateFile;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private StaffUser staffUser;
 
 
 

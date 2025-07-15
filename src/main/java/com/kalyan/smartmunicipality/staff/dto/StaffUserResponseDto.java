@@ -22,6 +22,8 @@ public class StaffUserResponseDto {
     private Role role;
     private String designation;
     private Department department;
+    private String district;
+    private String municipality;
     private Status status;
     private LocalDateTime createdAt;
     private String addedBy;

@@ -28,6 +28,9 @@ public class StaffUserDtoMapper {
                 .phoneNumber(staffUser.getPhoneNumber())
                 .createdAt(staffUser.getCreatedAt())
                 .addedBy(staffUser.getAddedBy())
+                .municipality(staffUser.getMunicipality())
+                .district(staffUser.getDistrict())
+
 
 
                 .build();
@@ -46,6 +49,9 @@ public class StaffUserDtoMapper {
                 .createdAt(LocalDateTime.now())
                 .status(Status.ACTIVE)
                 .addedBy(staffUserRequestDto.getAddedBy())
+
+                .municipality(staffUserRequestDto.getMunicipality())
+                .district(staffUserRequestDto.getDistrict())
 
                 .build();
 

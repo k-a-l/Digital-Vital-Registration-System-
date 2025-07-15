@@ -47,8 +47,8 @@ public class CitizenService {
     private final CertificateFileRepository certificateFileRepository;
 
 
-    @CacheEvict(value = {"citizenCount", "citizenList","citizenById"}, allEntries = true)
-    @CachePut(value = "citizen", key = "#result.id")
+  //  @CacheEvict(value = {"citizenCount", "citizenList","citizenById"}, allEntries = true)
+   // @CachePut(value = "citizen", key = "#result.id")
 
     public CitizenResponseDto createCitizen(CitizenRequestDto citizenRequestDto) {
         User user = jwtUtil.getCurrentUserFromToken();
@@ -103,7 +103,7 @@ public class CitizenService {
     }
 
 
-    @CacheEvict(value = "citizenById", key = "#id")
+    //@CacheEvict(value = "citizenById", key = "#id")
     public CitizenResponseDto updateCitizen(Long id, CitizenRequestDto dto) {
         Citizen citizen = citizenRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Citizen not found"));
@@ -120,7 +120,7 @@ public class CitizenService {
 
 
 
-   @Cacheable(value = "citizenById", key = "#id")
+  // @Cacheable(value = "citizenById", key = "#id")
 
     public CitizenResponseDto getCitizenById(Long id) {
         Optional<Citizen> citizen = citizenRepository.findById(id);
@@ -131,22 +131,22 @@ public class CitizenService {
         }
     }
 
-    @Cacheable(value = "male")
+    //@Cacheable(value = "male")
     public Long getMaleCount() {
         return citizenRepository.countByGender(Gender.MALE);
     }
 
-    @Cacheable(value = "female")
+   // @Cacheable(value = "female")
     public Long getFemaleCount() {
         return citizenRepository.countByGender(Gender.FEMALE);
     }
 
-    @Cacheable(value = "others")
+   // @Cacheable(value = "others")
     public Long getOthersCount() {
         return citizenRepository.countByGender(Gender.OTHERS);
     }
 
-    @Cacheable(value = "approvedList")
+   // @Cacheable(value = "approvedList")
     public List<CitizenResponseDto> getApprovedCitizens(){
         return citizenRepository.findAll()
                 .stream()
@@ -154,7 +154,7 @@ public class CitizenService {
                 .map(CitizenDtoMapper::mapToDto).collect(Collectors.toList());
     }
 
-    @Cacheable(value = "pendingList")
+    //@Cacheable(value = "pendingList")
     public List<CitizenResponseDto> getPendingCitizens(){
         return citizenRepository.findAll()
                 .stream()
@@ -162,7 +162,7 @@ public class CitizenService {
                 .map(CitizenDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
-    @Cacheable(value = "rejectedList")
+  //  @Cacheable(value = "rejectedList")
     public List<CitizenResponseDto> getRejectedCitizens(){
         return citizenRepository.findAll()
                 .stream().filter(citizen -> citizen.getStatus().equals(CitizenStatus.REJECTED))
@@ -171,9 +171,7 @@ public class CitizenService {
     }
 
 
-    @CacheEvict(value = {
-            "citizenById", "approvedList", "pendingList", "rejectedList", "citizenList", "citizenCount"
-    }, allEntries = true)
+
     @Transactional
     public void rejectCitizen(Long id, String rejectionReason, Long verifiedBy){
         Citizen citizen = citizenRepository.findById(id).orElseThrow(()->new RuntimeException("Citizen not found"));
@@ -220,9 +218,7 @@ public class CitizenService {
     }
 
 
-    @CacheEvict(value = {
-            "citizenById", "approvedList", "pendingList", "rejectedList", "citizenList", "citizenCount"
-    }, allEntries = true)
+
     @Transactional
     public void approveCitizen(Long id, Long verifiedBy){
         Citizen citizen = citizenRepository.findById(id).orElseThrow(()->new RuntimeException("Citizen not found"));
@@ -305,6 +301,11 @@ public class CitizenService {
     public CitizenResponseDto getCitizenByCitizenshipNumberAndDateOfBirth(String citizenshipNumber, LocalDate dateOfBirth) {
         Citizen citizen = citizenRepository.findByCitizenshipNumberAndDateOfBirth(citizenshipNumber,dateOfBirth);
         return CitizenDtoMapper.mapToDto(citizen);
+    }
+
+
+    public List<CitizenResponseDto> getCitizenByMunicipality(String municipality) {
+        return citizenRepository.findByMunicipality(municipality);
     }
 
 }

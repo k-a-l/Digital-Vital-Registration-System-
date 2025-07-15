@@ -36,6 +36,7 @@ public class UserMapper {
                 .role(user.getRole())
                 .createdAt(user.getCreatedAt())
                 .department(user.getStaffUser() !=null? user.getStaffUser().getDepartment().name() : null)
+                .municipality(user.getStaffUser() != null? user.getStaffUser().getMunicipality() : null)
                 .build();
     }
 }

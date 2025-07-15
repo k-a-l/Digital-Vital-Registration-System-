@@ -19,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -57,6 +56,9 @@ public class BirthCertificateService {
         birthCertificate.setStatus(CertificateStatus.PENDING);
         birthCertificate.setRequestedBy(citizen.getId());
         birthCertificate.setRequestedAt(LocalDate.now());
+        birthCertificate.setMunicipality(birthCertificate.getMunicipality());
+        birthCertificate.setDistrict(birthCertificate.getDistrict());
+        birthCertificate.setNationality(birthCertificate.getNationality());
 
         BirthCertificateRequest savedRequest = birthCertificateRepository.save(birthCertificate);
 
@@ -183,6 +185,13 @@ public class BirthCertificateService {
         });
     }
 
+    public void approveByVerifier(Long id) {
+        birthCertificateRepository.findById(id).ifPresent(birthCertificate -> {
+            birthCertificate.setStatus(CertificateStatus.APPROVED_BY_VERIFIER);
+            birthCertificateRepository.save(birthCertificate);
+        });
+    }
+
     public void rejectBirthCertificateRequest(Long id) {
         birthCertificateRepository.findById(id).ifPresent(birthCertificate -> {
             birthCertificate.setStatus(CertificateStatus.REJECTED);
@@ -206,6 +215,11 @@ public class BirthCertificateService {
                 .stream()
                 .collect(Collectors.groupingBy(request -> request.getRequestedAt().getMonth().name(), Collectors.counting()));
     }
+
+    public List<BirthCertificateRequest> getByStaffMunicipality(String municipality) {
+        return birthCertificateRepository.findByMunicipality(municipality);
+    }
+
 
 }
 

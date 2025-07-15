@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.enums.CertificateStatus;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
+import com.kalyan.smartmunicipality.staff.model.StaffUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,6 +46,11 @@ public class BirthCertificateRequest implements Serializable {
 
     private Long requestedBy;
 
+    private String municipality;
+    private String district;
+    private int wardNo;
+    private String nationality;
+
     private LocalDate requestedAt;
 
     @Enumerated(EnumType.STRING)
@@ -54,5 +60,8 @@ public class BirthCertificateRequest implements Serializable {
     @JsonManagedReference(value = "certificate-file-birth-request")
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "birthCertificateRequest")
     private CertificateFile certificateFile;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private StaffUser staffUser;
 }
 

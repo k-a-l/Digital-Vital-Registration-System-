@@ -1,5 +1,6 @@
 package com.kalyan.smartmunicipality.citizen.repository;
 
+import com.kalyan.smartmunicipality.citizen.dto.CitizenResponseDto;
 import com.kalyan.smartmunicipality.citizen.enums.Gender;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import com.kalyan.smartmunicipality.user.model.User;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -22,4 +24,6 @@ public interface CitizenRepository extends JpaRepository<Citizen,Long>{
     Citizen findCitizenByUserId(Long userId);
 
     Citizen findByCitizenshipNumberAndDateOfBirth(String citizenshipNumber, LocalDate dateOfBirth);
+
+    List<CitizenResponseDto> findByMunicipality(String municipality);
 }

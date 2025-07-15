@@ -42,7 +42,7 @@ public class MarriageCertificateRequestMapper {
                 .requestedBy(requestedByName)
                 .partnerName(partnerName)
                 .marriageDate(request.getMarriageDate())
-                .marriagePlace(request.getPlaceOfMarriage())
+                .marriagePlace(request.getMunicipality())
                 .marriageStatus(request.getStatus())
                 .partnerEmail(partnerEmail)
                 .scheduledTime(request.getScheduledTime())

@@ -115,15 +115,22 @@ public class BirthCertificateController {
     }
 
 
-    @GetMapping("/count-birth")
-    public ResponseEntity<Long> countBirthCertificate(){
-        return new ResponseEntity<>(birthCertificateReportService.countGeneratedBirthCertificate(), HttpStatus.OK);
+//    @GetMapping("/count-birth")
+//    public ResponseEntity<Long> countBirthCertificate(){
+//        return new ResponseEntity<>(birthCertificateReportService.countGeneratedBirthCertificate(), HttpStatus.OK);
+//    }
+
+    @GetMapping("/by-municipality")
+    public ResponseEntity<List<BirthCertificateRequest>> getBirthCertificateByMunicipality(@RequestParam String municipality) {
+        return ResponseEntity.ok().body(birthCertificateService.getByStaffMunicipality(municipality));
     }
 
 
 
-
-
-
+    @PostMapping("/verify/{id}")
+    public ResponseEntity<Map<String, String>> verifyBirthCertificate(@PathVariable Long id){
+        birthCertificateService.approveByVerifier(id);
+        return ResponseEntity.ok(Map.of("message","Approved"));
+   }
 
 }

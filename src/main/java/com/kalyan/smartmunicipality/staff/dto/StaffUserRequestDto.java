@@ -19,6 +19,8 @@ public class StaffUserRequestDto {
         private String phoneNumber;
         private String designation;
         private Department department;
+        private String municipality;
+        private String district;
         private String addedBy;
         private Role role;
     }

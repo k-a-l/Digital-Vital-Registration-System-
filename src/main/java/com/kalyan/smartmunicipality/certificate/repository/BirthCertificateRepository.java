@@ -1,6 +1,5 @@
 package com.kalyan.smartmunicipality.certificate.repository;
 
-import com.kalyan.smartmunicipality.certificate.certificateFile.CertificateFile;
 import com.kalyan.smartmunicipality.certificate.model.BirthCertificateRequest;
 import com.kalyan.smartmunicipality.citizen.model.Citizen;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +13,9 @@ public interface BirthCertificateRepository extends JpaRepository<BirthCertifica
     boolean existsByChildNameAndDateOfBirthAndCitizen(String childName, LocalDate dateOfBirth, Citizen citizen);
 
     List<BirthCertificateRequest> findByCitizenId(Long id);
+
+    List<BirthCertificateRequest> findByStaffUserMunicipality(String municipality);
+
+
+    List<BirthCertificateRequest> findByMunicipality(String municipality);
 }

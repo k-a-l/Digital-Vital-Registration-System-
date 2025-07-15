@@ -3,11 +3,13 @@ Content-Type: application/json
 
 {
   "fullName": "Super Admin",
-  "email": "superadmin@gmail.com",
+  "email": "superpara@gmail.com",
   "password": "kk",
-  "phoneNumber": "9800000000",
+  "phoneNumber": "98000000000",
   "designation": "Chief Administrator",
   "department": "ADMINISTRATION_DEPARTMENT",
   "addedBy": "Kalyan Katwal",
-  "role": "SUPERADMIN"
+  "role": "SUPERADMIN",
+  "district": "Bara",
+  "municipality": "Para"
 }

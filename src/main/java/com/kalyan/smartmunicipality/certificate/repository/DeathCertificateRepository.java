@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DeathCertificateRepository extends JpaRepository<DeathCertificateRequest, Long> {
@@ -19,4 +20,8 @@ public interface DeathCertificateRepository extends JpaRepository<DeathCertifica
     );
 
     List<DeathCertificateRequest> findByRequestedById(Long id);
+
+
+
+    Optional<List<DeathCertificateRequest>> findByMunicipality(String municipality);
 }
